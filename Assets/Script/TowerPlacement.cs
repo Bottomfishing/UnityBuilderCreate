@@ -60,7 +60,7 @@ public class TowerPlacement : MonoBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (IsSkillActive())
         {
@@ -73,6 +73,11 @@ public class TowerPlacement : MonoBehaviour
         
         if (Input.GetMouseButtonDown(0))
         {
+            if (SkillManager.skillClickProcessed)
+            {
+                return;
+            }
+            
             if (isUIShowing)
             {
                 if (!IsPointerOverUIElement(towerSelectionUI))
@@ -94,6 +99,17 @@ public class TowerPlacement : MonoBehaviour
             return SkillManager.instance.IsSkillActive();
         }
         return false;
+    }
+    
+    private bool IsPositionInGrid(Vector3 worldPos)
+    {
+        float minX = gridManager.gridOrigin.x;
+        float maxX = gridManager.gridOrigin.x + gridManager.gridWidth * gridManager.cellSize;
+        float minY = gridManager.gridOrigin.y;
+        float maxY = gridManager.gridOrigin.y + gridManager.gridHeight * gridManager.cellSize;
+        
+        return worldPos.x >= minX && worldPos.x <= maxX && 
+               worldPos.y >= minY && worldPos.y <= maxY;
     }
 
     private bool IsPointerOverUIElement(GameObject uiElement)
@@ -141,6 +157,12 @@ public class TowerPlacement : MonoBehaviour
 
         Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
+        
+        if (!IsPositionInGrid(mouseWorldPos))
+        {
+            return;
+        }
+        
         selectedGridPos = gridManager.GetGridPosFromWorld(mouseWorldPos);
 
         if (gridManager.GetCellState(selectedGridPos.x, selectedGridPos.y) != CellType.Walkable)

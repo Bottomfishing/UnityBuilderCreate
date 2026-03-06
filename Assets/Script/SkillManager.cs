@@ -5,6 +5,7 @@ using System.Collections;
 public class SkillManager : MonoBehaviour
 {
     public static SkillManager instance;
+    public static bool skillClickProcessed = false;
     
     [Header("炸弹技能设置")]
     public Button bombSkillButton;
@@ -64,6 +65,8 @@ public class SkillManager : MonoBehaviour
     
     private void Update()
     {
+        skillClickProcessed = false;
+        
         if (!isBombReady)
         {
             bombCooldownTimer -= Time.deltaTime;
@@ -83,6 +86,7 @@ public class SkillManager : MonoBehaviour
                 if (!IsPointerOverSkillButton())
                 {
                     PlaceBomb();
+                    skillClickProcessed = true;
                 }
             }
         }
@@ -122,11 +126,13 @@ public class SkillManager : MonoBehaviour
         if (isSelectingBombTarget)
         {
             CancelBombSelection();
+            skillClickProcessed = true;
             return;
         }
         
         isSelectingBombTarget = true;
         UpdateBombSkillUI();
+        skillClickProcessed = true;
     }
     
     private void PlaceBomb()
