@@ -787,7 +787,7 @@ RectTransform:
   m_Father: {fileID: 1091779300}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1804,7 +1804,7 @@ MonoBehaviour:
     - waveName: "\u7B2C1\u6CE2"
       zombies:
       - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
-        count: 3
+        count: 6
       spawnInterval: 3
       mixChance: 1
     - waveName: "\u7B2C2\u6CE2"
@@ -3602,7 +3602,7 @@ RectTransform:
   m_Father: {fileID: 1692372484}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3955,7 +3955,7 @@ RectTransform:
   m_Father: {fileID: 683412732}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4310,8 +4310,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 874498602}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5132,7 +5132,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1070338607
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7241,8 +7241,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1618977568}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10385,8 +10385,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000038147, y: -404}
-  m_SizeDelta: {x: 971.811, y: 665.664}
+  m_AnchoredPosition: {x: 27.202, y: -457.78}
+  m_SizeDelta: {x: 1025.6, y: 773.2242}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1901222793
 MonoBehaviour:
@@ -10436,7 +10436,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u6E38\u620F\u73A9\u6CD5\uFF1A\n\u5728\u6E38\u620F\u4E2D\u6211\u4EEC\u53EF\u4EE5\u70B9\u51FB\u5730\u9762\u653E\u7F6E\u70AE\u5854\u6765\u62B5\u6297\u50F5\u5C38\u7684\u5165\u4FB5\uFF0C\u70B9\u51FB\u70AE\u5854\u53EF\u4EE5\u5347\u7EA7\u70AE\u5854\u4E3A\u66F4\u5F3A\u52B2\u7684\u6B66\u5668\u6765\u51FB\u8D25\u50F5\u5C38\uFF0C\u6E38\u620F\u65F6\u5019\u6CE8\u610F\u81EA\u5DF1\u7684\u8840\u91CF\u548C\u91D1\u94B1\u5466~"
+  m_Text: "\u6E38\u620F\u73A9\u6CD5\uFF1A\n\u5728\u6E38\u620F\u4E2D\u6211\u4EEC\u53EF\u4EE5\u70B9\u51FB\u5730\u9762\u653E\u7F6E\u70AE\u5854\u6765\u62B5\u6297\u50F5\u5C38\u5165\u4FB5\uFF0C\u70B9\u51FB\u70AE\u5854\u53EF\u9009\u62E9\u5347\u7EA7\u70AE\u5854\u4EE5\u66F4\u5F3A\u7684\u72B6\u6001\u51FB\u8D25\u50F5\u5C38\uFF0C\u6E38\u620F\u65F6\u5019\u6CE8\u610F\u81EA\u5DF1\u7684\u8840\u91CF\u548C\u91D1\u94B1\u5466~\n\u8BF7\u4E0D\u8981\u957F\u65F6\u95F4\u6E38\u73A9\n"
 --- !u!222 &1901222795
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11218,8 +11218,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1967000855}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
