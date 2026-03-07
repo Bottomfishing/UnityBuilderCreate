@@ -28,8 +28,13 @@ public class ZombieMovement : MonoBehaviour
     
     [Header("颜色设置")]
     public Color slowedColor = new Color(0.5f, 0.8f, 1f, 1f); // 浅蓝色
+    public Color frozenColor = new Color(0f, 1f, 1f, 1f); // 青蓝色
     private Color originalColor;
     private SpriteRenderer zombieSpriteRenderer;
+    
+    [Header("冰冻设置")]
+    private bool isFrozen = false;
+    private float frozenDuration = 0f;
 
     private void Awake()
     {
@@ -53,6 +58,16 @@ public class ZombieMovement : MonoBehaviour
 
     private void Update()
     {
+        if (isFrozen)
+        {
+            frozenDuration -= Time.deltaTime;
+            if (frozenDuration <= 0)
+            {
+                EndFreeze();
+            }
+            return;
+        }
+        
         if (isSlowed)
         {
             slowDuration -= Time.deltaTime;
@@ -83,6 +98,27 @@ public class ZombieMovement : MonoBehaviour
     {
         isSlowed = false;
         moveSpeed = originalMoveSpeed;
+        
+        if (zombieSpriteRenderer != null)
+        {
+            zombieSpriteRenderer.color = originalColor;
+        }
+    }
+    
+    public void FreezeZombie(float duration)
+    {
+        frozenDuration = duration;
+        isFrozen = true;
+        
+        if (zombieSpriteRenderer != null)
+        {
+            zombieSpriteRenderer.color = frozenColor;
+        }
+    }
+    
+    private void EndFreeze()
+    {
+        isFrozen = false;
         
         if (zombieSpriteRenderer != null)
         {

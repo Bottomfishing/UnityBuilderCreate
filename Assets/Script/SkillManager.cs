@@ -17,10 +17,23 @@ public class SkillManager : MonoBehaviour
     public int bombDamage = 50;
     public GameObject bombExplosionPrefab;
     
+    [Header("冰冻技能设置")]
+    public Button freezeSkillButton;
+    public Image freezeSkillCooldownImage;
+    public Text freezeSkillCostText;
+    public float freezeCooldown = 45f;
+    public int freezeCost = 80;
+    public float freezeRadius = 3f;
+    public float freezeDuration = 5f;
+    public GameObject freezeEffectPrefab;
+    
     [Header("技能状态")]
     public bool isBombReady = true;
     public bool isSelectingBombTarget = false;
     private float bombCooldownTimer;
+    public bool isFreezeReady = true;
+    public bool isSelectingFreezeTarget = false;
+    private float freezeCooldownTimer;
     
     [Header("其他引用")]
     public Camera mainCamera;
@@ -45,9 +58,19 @@ public class SkillManager : MonoBehaviour
             bombSkillButton.onClick.AddListener(OnBombSkillClicked);
         }
         
+        if (freezeSkillButton != null)
+        {
+            freezeSkillButton.onClick.AddListener(OnFreezeSkillClicked);
+        }
+        
         if (bombSkillCooldownImage != null)
         {
             bombSkillCooldownImage.fillAmount = 0;
+        }
+        
+        if (freezeSkillCooldownImage != null)
+        {
+            freezeSkillCooldownImage.fillAmount = 0;
         }
         
         if (mainCamera == null)
@@ -61,6 +84,7 @@ public class SkillManager : MonoBehaviour
         }
         
         UpdateBombSkillUI();
+        UpdateFreezeSkillUI();
     }
     
     private void Update()
@@ -79,6 +103,18 @@ public class SkillManager : MonoBehaviour
             }
         }
         
+        if (!isFreezeReady)
+        {
+            freezeCooldownTimer -= Time.deltaTime;
+            UpdateFreezeCooldownUI();
+            
+            if (freezeCooldownTimer <= 0)
+            {
+                isFreezeReady = true;
+                UpdateFreezeSkillUI();
+            }
+        }
+        
         if (isSelectingBombTarget)
         {
             if (Input.GetMouseButtonDown(0))
@@ -90,15 +126,21 @@ public class SkillManager : MonoBehaviour
                 }
             }
         }
+        else if (isSelectingFreezeTarget)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (!IsPointerOverSkillButton())
+                {
+                    PlaceFreeze();
+                    skillClickProcessed = true;
+                }
+            }
+        }
     }
     
     private bool IsPointerOverSkillButton()
     {
-        if (bombSkillButton == null)
-        {
-            return false;
-        }
-        
         UnityEngine.EventSystems.PointerEventData eventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
         eventData.position = Input.mousePosition;
         
@@ -107,7 +149,8 @@ public class SkillManager : MonoBehaviour
         
         foreach (UnityEngine.EventSystems.RaycastResult result in results)
         {
-            if (result.gameObject == bombSkillButton.gameObject || result.gameObject.transform.IsChildOf(bombSkillButton.transform))
+            if ((bombSkillButton != null && (result.gameObject == bombSkillButton.gameObject || result.gameObject.transform.IsChildOf(bombSkillButton.transform))) ||
+                (freezeSkillButton != null && (result.gameObject == freezeSkillButton.gameObject || result.gameObject.transform.IsChildOf(freezeSkillButton.transform))))
             {
                 return true;
             }
@@ -232,6 +275,127 @@ public class SkillManager : MonoBehaviour
         }
     }
     
+    private void OnFreezeSkillClicked()
+    {
+        if (!isFreezeReady)
+        {
+            return;
+        }
+        
+        if (isSelectingFreezeTarget)
+        {
+            CancelFreezeSelection();
+            skillClickProcessed = true;
+            return;
+        }
+        
+        if (isSelectingBombTarget)
+        {
+            CancelBombSelection();
+        }
+        
+        isSelectingFreezeTarget = true;
+        UpdateFreezeSkillUI();
+        skillClickProcessed = true;
+    }
+    
+    private void PlaceFreeze()
+    {
+        if (mainCamera == null)
+        {
+            Debug.LogError("MainCamera is null!");
+            CancelFreezeSelection();
+            return;
+        }
+        
+        if (GameManager.Instance == null || !GameManager.Instance.SpendMoney(freezeCost))
+        {
+            CancelFreezeSelection();
+            return;
+        }
+        
+        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPos.z = 0;
+        
+        if (freezeEffectPrefab != null)
+        {
+            GameObject freezeEffect = Instantiate(freezeEffectPrefab, mouseWorldPos, Quaternion.identity);
+            Destroy(freezeEffect, 2f);
+        }
+        
+        ApplyFreezeEffect(mouseWorldPos);
+        
+        isSelectingFreezeTarget = false;
+        isFreezeReady = false;
+        freezeCooldownTimer = freezeCooldown;
+        
+        UpdateFreezeSkillUI();
+    }
+    
+    private void ApplyFreezeEffect(Vector3 freezePosition)
+    {
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(freezePosition, freezeRadius);
+        
+        foreach (Collider2D col in hitColliders)
+        {
+            if (col.CompareTag("Zombie"))
+            {
+                ZombieMovement zombieMovement = col.GetComponent<ZombieMovement>();
+                if (zombieMovement != null)
+                {
+                    zombieMovement.FreezeZombie(freezeDuration);
+                }
+            }
+        }
+    }
+    
+    private void CancelFreezeSelection()
+    {
+        isSelectingFreezeTarget = false;
+        UpdateFreezeSkillUI();
+    }
+    
+    private void UpdateFreezeSkillUI()
+    {
+        if (freezeSkillButton != null)
+        {
+            freezeSkillButton.interactable = isFreezeReady || isSelectingFreezeTarget;
+            
+            if (isSelectingFreezeTarget)
+            {
+                freezeSkillButton.GetComponent<Image>().color = Color.cyan;
+            }
+            else if (isFreezeReady)
+            {
+                freezeSkillButton.GetComponent<Image>().color = Color.white;
+            }
+            else
+            {
+                freezeSkillButton.GetComponent<Image>().color = Color.gray;
+            }
+        }
+        
+        if (freezeSkillCostText != null)
+        {
+            if (isSelectingFreezeTarget)
+            {
+                freezeSkillCostText.text = "点击释放";
+            }
+            else
+            {
+                freezeSkillCostText.text = $"${freezeCost}";
+            }
+        }
+    }
+    
+    private void UpdateFreezeCooldownUI()
+    {
+        if (freezeSkillCooldownImage != null)
+        {
+            freezeSkillCooldownImage.fillAmount = freezeCooldownTimer / freezeCooldown;
+        }
+    }
+    
     private bool IsPointerOverUI()
     {
         return UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
@@ -239,7 +403,7 @@ public class SkillManager : MonoBehaviour
     
     public bool IsSkillActive()
     {
-        return isSelectingBombTarget;
+        return isSelectingBombTarget || isSelectingFreezeTarget;
     }
     
     private void OnDrawGizmosSelected()
@@ -248,6 +412,12 @@ public class SkillManager : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, bombRadius);
+        }
+        
+        if (isSelectingFreezeTarget)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, freezeRadius);
         }
     }
 }
