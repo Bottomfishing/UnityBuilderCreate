@@ -709,8 +709,18 @@ MonoBehaviour:
   bombRadius: 3
   bombDamage: 50
   bombExplosionPrefab: {fileID: 1238265781682758422, guid: 6d717a10faa4a0b43b5070492037f769, type: 3}
+  freezeSkillButton: {fileID: 0}
+  freezeSkillCooldownImage: {fileID: 0}
+  freezeSkillCostText: {fileID: 0}
+  freezeCooldown: 45
+  freezeCost: 80
+  freezeRadius: 3
+  freezeDuration: 5
+  freezeEffectPrefab: {fileID: 0}
   isBombReady: 1
   isSelectingBombTarget: 0
+  isFreezeReady: 1
+  isSelectingFreezeTarget: 0
   mainCamera: {fileID: 519420031}
   gridManager: {fileID: 388304979}
 --- !u!4 &267239292
