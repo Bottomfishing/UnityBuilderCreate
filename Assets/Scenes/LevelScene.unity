@@ -1443,7 +1443,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &454622164
 Transform:
   m_ObjectHideFlags: 0
@@ -4271,7 +4271,7 @@ MonoBehaviour:
     cost: 0
     sellValue: 200
     upgradeCost: 200
-    isBuildable: 1
+    isBuildable: 0
     defaultUnlocked: 0
     towerPrefab: {fileID: 1451613615874834670, guid: ccf82c13fe37de8489e828d361d063a2, type: 3}
     upgradedTowerPrefab: {fileID: 1451613615874834670, guid: 0c9acb8b30272a647ba35d0eb09ce067, type: 3}
@@ -4279,9 +4279,17 @@ MonoBehaviour:
     cost: 0
     sellValue: 300
     upgradeCost: 0
-    isBuildable: 1
+    isBuildable: 0
     defaultUnlocked: 0
     towerPrefab: {fileID: 1451613615874834670, guid: 0c9acb8b30272a647ba35d0eb09ce067, type: 3}
+    upgradedTowerPrefab: {fileID: 0}
+  - towerName: "\u4F4E\u7EA7\u706B\u7130\u5854"
+    cost: 100
+    sellValue: 100
+    upgradeCost: 0
+    isBuildable: 1
+    defaultUnlocked: 1
+    towerPrefab: {fileID: 1451613615874834670, guid: 3baed8a831f2c7249a91706c312357e0, type: 3}
     upgradedTowerPrefab: {fileID: 0}
   towerSelectionUI: {fileID: 697133421}
   towerButtonContainer: {fileID: 1773713941}

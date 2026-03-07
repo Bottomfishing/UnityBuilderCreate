@@ -10,6 +10,11 @@ public class Tower : MonoBehaviour
     public Transform firePoint;
     public int bulletDamage = 1;
     
+    [Header("范围伤害设置")]
+    public bool useAreaDamage = false;
+    public float explosionRadius = 2f;
+    public GameObject explosionEffectPrefab;
+    
     [Header("目标设置")]
     public string targetTag = "Zombie";
     
@@ -71,6 +76,13 @@ public class Tower : MonoBehaviour
         {
             bulletScript.SetTarget(targetZombie.transform);
             bulletScript.SetDamage(bulletDamage);
+            
+            if (useAreaDamage)
+            {
+                bulletScript.isAreaDamage = true;
+                bulletScript.explosionRadius = explosionRadius;
+                bulletScript.explosionEffectPrefab = explosionEffectPrefab;
+            }
         }
     }
     
@@ -78,5 +90,11 @@ public class Tower : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+        
+        if (useAreaDamage)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, explosionRadius);
+        }
     }
 }

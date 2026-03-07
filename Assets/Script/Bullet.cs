@@ -8,6 +8,9 @@ public class Bullet : MonoBehaviour
     public bool isIceBullet = false;
     public float slowDuration = 2f;
     public float slowMultiplier = 0.5f;
+    public bool isAreaDamage = false;
+    public float explosionRadius = 2f;
+    public GameObject explosionEffectPrefab;
     private Transform target;
     private bool hasDealtDamage = false;
 
@@ -25,7 +28,14 @@ public class Bullet : MonoBehaviour
     {
         if (target == null)
         {
-            Destroy(gameObject);
+            if (isAreaDamage)
+            {
+                Explode();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
             return;
         }
 
@@ -34,6 +44,12 @@ public class Bullet : MonoBehaviour
             target.position, 
             bulletSpeed * Time.deltaTime
         );
+
+        if (isAreaDamage && Vector3.Distance(transform.position, target.position) < 0.2f)
+        {
+            Explode();
+            return;
+        }
 
         if (target == null)
         {
@@ -44,6 +60,11 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (isAreaDamage)
+        {
+            return;
+        }
+        
         if (other.CompareTag("Zombie") && !hasDealtDamage)
         {
             hasDealtDamage = true;
@@ -64,5 +85,36 @@ public class Bullet : MonoBehaviour
             
             Destroy(gameObject);
         }
+    }
+    
+    private void Explode()
+    {
+        if (hasDealtDamage)
+        {
+            return;
+        }
+        
+        hasDealtDamage = true;
+        
+        if (explosionEffectPrefab != null)
+        {
+            GameObject explosion = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(explosion, 2f);
+        }
+        
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
+        foreach (Collider2D col in hitColliders)
+        {
+            if (col.CompareTag("Zombie"))
+            {
+                ZombieHealth zombieHealth = col.GetComponent<ZombieHealth>();
+                if (zombieHealth != null)
+                {
+                    zombieHealth.TakeDamage(damage);
+                }
+            }
+        }
+        
+        Destroy(gameObject);
     }
 }
