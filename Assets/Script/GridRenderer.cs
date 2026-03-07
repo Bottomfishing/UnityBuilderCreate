@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class GridRenderer : MonoBehaviour
 {
     [Header("网格设置")]
-    public GridManager gridManager;
-    
+
+    public GridManager gridManager;    
     [Header("网格样式")]
     public Color gridColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
     public float lineWidth = 0.05f;

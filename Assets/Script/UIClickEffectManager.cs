@@ -17,6 +17,10 @@ public class UIClickEffectManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            if (transform.parent != null)
+            {
+                transform.SetParent(null);
+            }
             DontDestroyOnLoad(gameObject);
         }
         else
