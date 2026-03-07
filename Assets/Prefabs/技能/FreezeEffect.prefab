@@ -99,6 +99,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   freezeSprite: {fileID: 5628851977389310858}
   effectDuration: 2
-  maxScale: 3
+  maxScale: 2
   startColor: {r: 0, g: 1, b: 1, a: 0.8}
   endColor: {r: 0, g: 1, b: 1, a: 0}
