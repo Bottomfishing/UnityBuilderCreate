@@ -368,7 +368,7 @@ MonoBehaviour:
   moveSpeed: 0.5
   spawnPoint: {fileID: 7920529382964365993, guid: 73ea2cb8510f0224bb77a3976b6c8817, type: 3}
   endPoint: {fileID: 0}
-  damageToPlayer: 10
+  damageToPlayer: 20
   slowedColor: {r: 0.5, g: 0.8, b: 1, a: 1}
   frozenColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &6348671782465554280
