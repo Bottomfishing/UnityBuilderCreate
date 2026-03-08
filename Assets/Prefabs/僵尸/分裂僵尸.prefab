@@ -370,6 +370,7 @@ MonoBehaviour:
   endPoint: {fileID: 0}
   damageToPlayer: 3
   slowedColor: {r: 0.5, g: 0.8, b: 1, a: 1}
+  frozenColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &6348671782465554280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,7 +393,7 @@ MonoBehaviour:
   healthBarBG: {fileID: 4461567135830988972}
   healthBarFill: {fileID: 1870479047762830425}
   hitMarkPrefab: {fileID: 3628373257282665141, guid: 7610ce4e75c967a448516c14f7700cdc, type: 3}
-  hitSound: {fileID: 8300000, guid: 7724afd2cba4dda4d976b7965bfb0666, type: 3}
+  hitSound: {fileID: 8300000, guid: 2e3d5300f03bfad488fe83438148d6ab, type: 3}
   dieEffectPrefab: {fileID: 102671894910185582, guid: d6cf360222fd11243853ec944dd7809c, type: 3}
   reward: 60
   canSplit: 1
@@ -409,7 +410,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -7552152700102730974, guid: 3b9e3995146f8734db1aa73020319545, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 7724afd2cba4dda4d976b7965bfb0666, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2e3d5300f03bfad488fe83438148d6ab, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1

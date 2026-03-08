@@ -77,17 +77,4 @@ public class DebugTools : MonoBehaviour
         
         Debug.Log("=== 快速失败完成 ===");
     }
-    
-    /// <summary>
-    /// 在Inspector面板中显示调试信息
-    /// </summary>
-    private void OnGUI()
-    {
-        if (!enableDebug) return;
-        
-        // 显示调试信息
-        GUI.Box(new Rect(10, 10, 200, 70), "调试工具");
-        GUI.Label(new Rect(20, 30, 180, 20), "F1: 快速胜利");
-        GUI.Label(new Rect(20, 50, 180, 20), "F2: 快速失败");
-    }
 }
