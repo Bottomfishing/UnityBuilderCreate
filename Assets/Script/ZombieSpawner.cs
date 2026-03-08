@@ -31,6 +31,11 @@ public class ZombieSpawner : MonoBehaviour
             Time.timeScale = 1;
         }
         
+        if (LevelManager.instance != null)
+        {
+            LevelManager.instance.StartTimer();
+        }
+        
         StartWave();
     }
     

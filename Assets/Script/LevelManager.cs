@@ -11,6 +11,10 @@ public class LevelManager : MonoBehaviour
     public Text loseText;
     public Text pauseText;
     public GameObject pauseMask;
+    public Text timerText;
+    public Text winTimeText;
+    public Text loseTimeText;
+    public Text pauseTimeText;
     
     [Header("按钮")]
     public Button againButton;
@@ -27,6 +31,8 @@ public class LevelManager : MonoBehaviour
     public bool isLevelWin = false;
     public bool isSpawnComplete = false;
     public bool isPaused = false;
+    public bool isTimerRunning = false;
+    private float elapsedTime = 0f;
     
     private RewardItem[] currentWinRewards;
     private RewardItem[] currentLoseRewards;
@@ -52,6 +58,12 @@ public class LevelManager : MonoBehaviour
     
     private void Update()
     {
+        if (isTimerRunning && !isPaused && !isLevelWin)
+        {
+            elapsedTime += Time.deltaTime;
+            UpdateTimerDisplay();
+        }
+        
         if (shouldCheckForWin && !isLevelWin)
         {
             ZombieMovement[] zombies = FindObjectsOfType<ZombieMovement>();
@@ -166,6 +178,42 @@ public class LevelManager : MonoBehaviour
                 pauseMask = maskObj;
             }
         }
+        
+        if (timerText == null)
+        {
+            GameObject timerObj = GameObject.Find("TimerText");
+            if (timerObj != null)
+            {
+                timerText = timerObj.GetComponent<Text>();
+            }
+        }
+        
+        if (winTimeText == null && levelTipParent != null)
+        {
+            Transform winTimeTrans = levelTipParent.transform.Find("WinTimeText");
+            if (winTimeTrans != null)
+            {
+                winTimeText = winTimeTrans.GetComponent<Text>();
+            }
+        }
+        
+        if (loseTimeText == null && levelTipParent != null)
+        {
+            Transform loseTimeTrans = levelTipParent.transform.Find("LoseTimeText");
+            if (loseTimeTrans != null)
+            {
+                loseTimeText = loseTimeTrans.GetComponent<Text>();
+            }
+        }
+        
+        if (pauseTimeText == null && levelTipParent != null)
+        {
+            Transform pauseTimeTrans = levelTipParent.transform.Find("PauseTimeText");
+            if (pauseTimeTrans != null)
+            {
+                pauseTimeText = pauseTimeTrans.GetComponent<Text>();
+            }
+        }
     }
 
     public void AddKillCount()
@@ -210,6 +258,7 @@ public class LevelManager : MonoBehaviour
     private void LevelWin()
     {
         isLevelWin = true;
+        isTimerRunning = false;
         
         CloseAllUIs();
         
@@ -226,6 +275,20 @@ public class LevelManager : MonoBehaviour
         if (pauseText != null)
         {
             pauseText.gameObject.SetActive(false);
+        }
+        
+        if (winTimeText != null)
+        {
+            winTimeText.gameObject.SetActive(true);
+            winTimeText.text = $"游戏时长: {FormatTime(elapsedTime)}";
+        }
+        if (loseTimeText != null)
+        {
+            loseTimeText.gameObject.SetActive(false);
+        }
+        if (pauseTimeText != null)
+        {
+            pauseTimeText.gameObject.SetActive(false);
         }
 
         ShowRewards(currentWinRewards);
@@ -260,6 +323,7 @@ public class LevelManager : MonoBehaviour
 
     public void LevelLose()
     {
+        isTimerRunning = false;
         CloseAllUIs();
         
         if (winText != null)
@@ -273,6 +337,20 @@ public class LevelManager : MonoBehaviour
         if (pauseText != null)
         {
             pauseText.gameObject.SetActive(false);
+        }
+        
+        if (winTimeText != null)
+        {
+            winTimeText.gameObject.SetActive(false);
+        }
+        if (loseTimeText != null)
+        {
+            loseTimeText.gameObject.SetActive(true);
+            loseTimeText.text = $"游戏时长: {FormatTime(elapsedTime)}";
+        }
+        if (pauseTimeText != null)
+        {
+            pauseTimeText.gameObject.SetActive(false);
         }
 
         ShowRewards(currentLoseRewards);
@@ -324,6 +402,20 @@ public class LevelManager : MonoBehaviour
         {
             pauseText.gameObject.SetActive(true);
             pauseText.text = "可以继续游戏";
+        }
+        
+        if (winTimeText != null)
+        {
+            winTimeText.gameObject.SetActive(false);
+        }
+        if (loseTimeText != null)
+        {
+            loseTimeText.gameObject.SetActive(false);
+        }
+        if (pauseTimeText != null)
+        {
+            pauseTimeText.gameObject.SetActive(true);
+            pauseTimeText.text = $"当前时长: {FormatTime(elapsedTime)}";
         }
         
         if (rewardPanel != null)
@@ -510,6 +602,30 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void StartTimer()
+    {
+        elapsedTime = 0f;
+        isTimerRunning = true;
+        UpdateTimerDisplay();
+    }
+    
+    private void UpdateTimerDisplay()
+    {
+        if (timerText != null)
+        {
+            timerText.text = FormatTime(elapsedTime);
+        }
+    }
+    
+    private string FormatTime(float timeInSeconds)
+    {
+        int minutes = Mathf.FloorToInt(timeInSeconds / 60f);
+        int seconds = Mathf.FloorToInt(timeInSeconds % 60f);
+        string minutesStr = minutes.ToString("00");
+        string secondsStr = seconds.ToString("00");
+        return $"{minutesStr}:{secondsStr}";
+    }
+    
     public void ResetLevel()
     {
         isLevelWin = false;
@@ -518,6 +634,8 @@ public class LevelManager : MonoBehaviour
         shouldCheckForWin = false;
         totalZombies = 0;
         processedZombies = 0;
+        elapsedTime = 0f;
+        isTimerRunning = false;
         
         // 清理所有僵尸
         ZombieMovement[] allZombies = FindObjectsOfType<ZombieMovement>();
