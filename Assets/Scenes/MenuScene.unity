@@ -1080,6 +1080,7 @@ Transform:
   - {fileID: 449214898}
   - {fileID: 1326283086}
   - {fileID: 288098202}
+  - {fileID: 1568136962}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &241581152
@@ -1989,10 +1990,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2089088595}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 541.1, y: -2284.728}
-  m_SizeDelta: {x: 1077.8, y: 6.432}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 1.0999756, y: 130.5}
+  m_SizeDelta: {x: 1077.8, y: 6.431885}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &313321293
 MonoBehaviour:
@@ -2512,8 +2513,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -66.41412}
-  m_SizeDelta: {x: 30.2954, y: -47.171745}
+  m_AnchoredPosition: {x: -0.79999924, y: -74.3}
+  m_SizeDelta: {x: 46.72, y: -41.117}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &415564976
 MonoBehaviour:
@@ -4553,8 +4554,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: -109}
-  m_SizeDelta: {x: 75.312, y: -47.172}
+  m_AnchoredPosition: {x: -0.8000412, y: -115.29994}
+  m_SizeDelta: {x: 90.173, y: -43.164}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &861649558
 MonoBehaviour:
@@ -7577,8 +7578,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 455, y: 672}
-  m_SizeDelta: {x: 110, y: 110}
+  m_AnchoredPosition: {x: 455.2, y: 681.6}
+  m_SizeDelta: {x: 92.402, y: 92.402}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1359730275
 MonoBehaviour:
@@ -8753,15 +8754,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1568136961}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.39814815, y: 0.39814815, z: 0.39814815}
+  m_LocalPosition: {x: 0, y: 0, z: -0.20162758}
+  m_LocalScale: {x: 0.39814818, y: 0.39814818, z: 0.39814818}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 224640841}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 540, y: 1170.4186}
+  m_AnchoredPosition: {x: 540.28784, y: 1170.4547}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1568136963
@@ -8787,10 +8788,7 @@ MonoBehaviour:
     textSelectedScale: {x: 1.3, y: 1.3, z: 1.3}
     iconNormalPosition: {x: 0, y: 17, z: 0}
     iconSelectedPosition: {x: 0, y: 7, z: 0}
-    textNormalPosition: {x: 0, y: 0, z: 0}
-    textSelectedPosition: {x: 0, y: 0, z: 0}
     useIconPositionChange: 1
-    useTextPositionChange: 0
   - button: {fileID: 815613638}
     page: {fileID: 461071463}
     icon: {fileID: 1511536835}
@@ -8801,10 +8799,7 @@ MonoBehaviour:
     textSelectedScale: {x: 1.3, y: 1.3, z: 1.3}
     iconNormalPosition: {x: 0, y: 17, z: 0}
     iconSelectedPosition: {x: 0, y: 7, z: 0}
-    textNormalPosition: {x: 0, y: 0, z: 0}
-    textSelectedPosition: {x: 0, y: 0, z: 0}
     useIconPositionChange: 1
-    useTextPositionChange: 0
   - button: {fileID: 2088037268}
     page: {fileID: 1818694841}
     icon: {fileID: 2122966896}
@@ -8815,10 +8810,7 @@ MonoBehaviour:
     textSelectedScale: {x: 1.3, y: 1.3, z: 1.3}
     iconNormalPosition: {x: 0, y: 17, z: 0}
     iconSelectedPosition: {x: 0, y: 7, z: 0}
-    textNormalPosition: {x: 0, y: 0, z: 0}
-    textSelectedPosition: {x: 0, y: 0, z: 0}
     useIconPositionChange: 1
-    useTextPositionChange: 0
   - button: {fileID: 1798995881}
     page: {fileID: 1070338606}
     icon: {fileID: 1298563911}
@@ -8829,10 +8821,7 @@ MonoBehaviour:
     textSelectedScale: {x: 1.3, y: 1.3, z: 1.3}
     iconNormalPosition: {x: 0, y: 17, z: 0}
     iconSelectedPosition: {x: 0, y: 7, z: 0}
-    textNormalPosition: {x: 0, y: 0, z: 0}
-    textSelectedPosition: {x: 0, y: 0, z: 0}
     useIconPositionChange: 1
-    useTextPositionChange: 0
   selectedColor: {r: 0.96862745, g: 0.6635374, b: 0.16078432, a: 1}
   normalColor: {r: 1, g: 0.79430586, b: 0.48235297, a: 1}
 --- !u!1 &1574050677
@@ -13148,5 +13137,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 776137355}
   - {fileID: 2089088595}
-  - {fileID: 1568136962}
   - {fileID: 224640841}

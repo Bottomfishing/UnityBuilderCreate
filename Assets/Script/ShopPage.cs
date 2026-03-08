@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ShopPage : MonoBehaviour
 {
@@ -27,7 +28,9 @@ public class ShopPage : MonoBehaviour
             return;
         }
 
-        foreach (ShopItem item in shopItems)
+        List<ShopItem> sortedItems = SortShopItems(shopItems);
+
+        foreach (ShopItem item in sortedItems)
         {
             if (item == null) continue;
 
@@ -36,10 +39,52 @@ public class ShopPage : MonoBehaviour
 
             if (display != null)
             {
-                display.Setup(item);
+                display.Setup(item, this);
                 currentDisplays.Add(display);
             }
         }
+    }
+
+    private List<ShopItem> SortShopItems(ShopItem[] items)
+    {
+        List<ShopItem> notPurchased = new List<ShopItem>();
+        List<ShopItem> purchased = new List<ShopItem>();
+
+        foreach (ShopItem item in items)
+        {
+            if (item == null) continue;
+
+            if (IsItemPurchased(item))
+            {
+                purchased.Add(item);
+            }
+            else
+            {
+                notPurchased.Add(item);
+            }
+        }
+
+        notPurchased.AddRange(purchased);
+        return notPurchased;
+    }
+
+    private bool IsItemPurchased(ShopItem item)
+    {
+        if (item == null) return false;
+
+        if (item.type == ShopItemType.TowerUnlock)
+        {
+            if (TowerUnlockManager.instance != null && !string.IsNullOrEmpty(item.towerNameToUnlock))
+            {
+                return TowerUnlockManager.instance.IsTowerUnlocked(item.towerNameToUnlock);
+            }
+        }
+        else if (!item.canRepeatPurchase)
+        {
+            return false;
+        }
+
+        return false;
     }
 
     private void ClearCurrentDisplays()

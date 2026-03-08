@@ -21,11 +21,13 @@ public class ShopItemDisplay : MonoBehaviour
     public Sprite diamondIcon;
 
     private ShopItem item;
+    private ShopPage shopPage;
     private bool isPurchased = false;
 
-    public void Setup(ShopItem shopItem)
+    public void Setup(ShopItem shopItem, ShopPage page)
     {
         item = shopItem;
+        shopPage = page;
         CheckIfPurchased();
         UpdateUI();
     }
@@ -139,7 +141,14 @@ public class ShopItemDisplay : MonoBehaviour
                 isPurchased = true;
             }
             
-            UpdateBuyButton();
+            if (shopPage != null && !item.canRepeatPurchase)
+            {
+                shopPage.RefreshShop();
+            }
+            else
+            {
+                UpdateBuyButton();
+            }
         }
     }
 
