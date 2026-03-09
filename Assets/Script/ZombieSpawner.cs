@@ -11,7 +11,6 @@ public class ZombieSpawner : MonoBehaviour
     
     [Header("基础设置")]
     public GameObject spawnPoint;
-    public bool useWorldPosition = true;
     
     private float timer;
     private int currentWaveSpawnCount = 0;
@@ -40,11 +39,22 @@ public class ZombieSpawner : MonoBehaviour
         StartWave();
     }
     
+    private WaveData[] originalWaves;
+    
     private void LoadLevelData()
     {
-        if (LevelDataContainer.selectedLevelData != null)
+        if (originalWaves == null)
+        {
+            originalWaves = waves;
+        }
+        
+        if (LevelDataContainer.selectedLevelData != null && LevelDataContainer.selectedLevelData.waves != null && LevelDataContainer.selectedLevelData.waves.Length > 0)
         {
             waves = LevelDataContainer.selectedLevelData.waves;
+        }
+        else
+        {
+            waves = originalWaves;
         }
     }
     
@@ -167,8 +177,7 @@ public class ZombieSpawner : MonoBehaviour
         GameObject unitManager = GameObject.Find("UnitManager");
         Transform parentTransform = unitManager != null ? unitManager.transform : null;
         
-        Vector3 spawnPosition = useWorldPosition ? spawnPoint.transform.position : spawnPoint.transform.localPosition;
-        GameObject zombie = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity, parentTransform);
+        GameObject zombie = Instantiate(selectedPrefab, spawnPoint.transform.position, Quaternion.identity, parentTransform);
         
         ZombieMovement zombieMove = zombie.GetComponent<ZombieMovement>();
         if (zombieMove != null)
@@ -307,7 +316,8 @@ public class ZombieSpawner : MonoBehaviour
         isSpawning = false;
         isWaitingForNextWave = false;
         waveDelayTimer = 0f;
-        timer = 0;        UpdateWaveText();
+        timer = 0;
+        UpdateWaveText();
         StartWave();
     }
 }
