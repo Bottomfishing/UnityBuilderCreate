@@ -11,6 +11,7 @@ public class ZombieSpawner : MonoBehaviour
     
     [Header("基础设置")]
     public GameObject spawnPoint;
+    public bool useWorldPosition = true;
     
     private float timer;
     private int currentWaveSpawnCount = 0;
@@ -166,7 +167,8 @@ public class ZombieSpawner : MonoBehaviour
         GameObject unitManager = GameObject.Find("UnitManager");
         Transform parentTransform = unitManager != null ? unitManager.transform : null;
         
-        GameObject zombie = Instantiate(selectedPrefab, spawnPoint.transform.position, Quaternion.identity, parentTransform);
+        Vector3 spawnPosition = useWorldPosition ? spawnPoint.transform.position : spawnPoint.transform.localPosition;
+        GameObject zombie = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity, parentTransform);
         
         ZombieMovement zombieMove = zombie.GetComponent<ZombieMovement>();
         if (zombieMove != null)
