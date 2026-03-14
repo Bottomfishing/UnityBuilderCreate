@@ -913,21 +913,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d0cf6df9d56a3f4dab529b83641736e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves:
-  - waveName: 1
-    zombies:
-    - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
-      count: 0
-    - zombiePrefab: {fileID: 8638358505556251938, guid: 9c457b528b29214409e99326370cd452, type: 3}
-      count: 0
-    - zombiePrefab: {fileID: 8638358505556251938, guid: 9e8a30a64d4dc14418bf5adf198da5d1, type: 3}
-      count: 0
-    - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
-      count: 0
-    - zombiePrefab: {fileID: 8638358505556251938, guid: c742f9d52edaef34bb45c8b6f757d96c, type: 3}
-      count: 0
-    spawnInterval: 1
-    mixChance: 0
   currentWave: 1
   waveText: {fileID: 403727540}
   waveDelay: 0.4
@@ -2950,11 +2935,11 @@ RectTransform:
   - {fileID: 578438249}
   - {fileID: 234180794}
   - {fileID: 1196795817}
+  - {fileID: 403727538}
   - {fileID: 2133201852}
   - {fileID: 454622164}
   - {fileID: 697133422}
   - {fileID: 100867166}
-  - {fileID: 403727538}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

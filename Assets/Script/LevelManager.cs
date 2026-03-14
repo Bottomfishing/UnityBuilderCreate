@@ -72,7 +72,7 @@ public class LevelManager : MonoBehaviour
                 shouldCheckForWin = false;
                 
                 ZombieSpawner zombieSpawner = FindObjectOfType<ZombieSpawner>();
-                if (zombieSpawner != null && zombieSpawner.currentWave + 1 < zombieSpawner.waves.Length)
+                if (zombieSpawner != null && zombieSpawner.currentWave + 1 < zombieSpawner.TotalWaves)
                 {
                     zombieSpawner.OnWaveComplete();
                 }
