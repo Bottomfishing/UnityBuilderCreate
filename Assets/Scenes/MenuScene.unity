@@ -2024,7 +2024,7 @@ MonoBehaviour:
     - type: 0
       amount: 10
       icon: {fileID: 21300000, guid: 0a4e07e2e64368e4c88509c0d436035d, type: 3}
-  - levelName: "2.\u57CE\u5821"
+  - levelName: "2.\u57CE\u5821\u8FB9\u9672"
     levelIcon: {fileID: 21300000, guid: 8790a65501979524f8a24e652b092bdf, type: 3}
     backgroundImage: {fileID: 21300000, guid: 23c1dc9834252ee4e8b4d58188ad1913, type: 3}
     isUnlocked: 0
