@@ -4535,7 +4535,7 @@ MonoBehaviour:
     sellValue: 100
     upgradeCost: 0
     isBuildable: 1
-    defaultUnlocked: 1
+    defaultUnlocked: 0
     towerPrefab: {fileID: 1451613615874834670, guid: 3baed8a831f2c7249a91706c312357e0, type: 3}
     upgradedTowerPrefab: {fileID: 0}
   towerSelectionUI: {fileID: 697133421}
