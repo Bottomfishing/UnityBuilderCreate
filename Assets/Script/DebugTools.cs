@@ -1,5 +1,4 @@
 using UnityEngine;
-
 /// <summary>
 /// 调试工具脚本
 /// 用于开发和测试时的快速操作
@@ -65,16 +64,12 @@ public class DebugTools : MonoBehaviour
     public void QuickLose()
     {
         Debug.Log("=== 快速失败触发 ===");
-        
         if (LevelManager.instance == null)
         {
-            Debug.LogError("❌ LevelManager实例不存在！");
             return;
         }
         
-        // 直接调用失败方法
         LevelManager.instance.LevelLose();
-        
         Debug.Log("=== 快速失败完成 ===");
     }
 }

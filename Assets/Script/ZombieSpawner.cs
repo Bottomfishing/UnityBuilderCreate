@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class ZombieSpawner : MonoBehaviour
 {
     [Header("波数设置")]
-    public WaveData[] waves;
     public int currentWave = 0;
     public Text waveText;
     public float waveDelay = 3f;
@@ -12,6 +11,12 @@ public class ZombieSpawner : MonoBehaviour
     [Header("基础设置")]
     public GameObject spawnPoint;
     
+    private WaveData[] waves;
+    
+    public int TotalWaves
+    {
+        get { return waves != null ? waves.Length : 0; }
+    }
     private float timer;
     private int currentWaveSpawnCount = 0;
     private int totalWaveZombies = 0;
@@ -39,22 +44,11 @@ public class ZombieSpawner : MonoBehaviour
         StartWave();
     }
     
-    private WaveData[] originalWaves;
-    
     private void LoadLevelData()
     {
-        if (originalWaves == null)
-        {
-            originalWaves = waves;
-        }
-        
-        if (LevelDataContainer.selectedLevelData != null && LevelDataContainer.selectedLevelData.waves != null && LevelDataContainer.selectedLevelData.waves.Length > 0)
+        if (LevelDataContainer.selectedLevelData != null)
         {
             waves = LevelDataContainer.selectedLevelData.waves;
-        }
-        else
-        {
-            waves = originalWaves;
         }
     }
     

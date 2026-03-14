@@ -139,5 +139,5 @@ MonoBehaviour:
   slowDuration: 2
   slowMultiplier: 0.5
   isAreaDamage: 1
-  explosionRadius: 2
+  explosionRadius: 1
   explosionEffectPrefab: {fileID: 6814957822230587986, guid: 61f122dee452e7e4eb208894a36ae459, type: 3}
