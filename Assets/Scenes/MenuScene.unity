@@ -1955,7 +1955,7 @@ MonoBehaviour:
         count: 5
       - zombiePrefab: {fileID: 8638358505556251938, guid: 9c457b528b29214409e99326370cd452, type: 3}
         count: 3
-      spawnInterval: 1.2
+      spawnInterval: 1.5
       mixChance: 0.6
     - waveName: "\u7B2C3\u6CE2"
       zombies:
@@ -1963,7 +1963,7 @@ MonoBehaviour:
         count: 5
       - zombiePrefab: {fileID: 8638358505556251938, guid: 9c457b528b29214409e99326370cd452, type: 3}
         count: 8
-      spawnInterval: 0.9
+      spawnInterval: 1.2
       mixChance: 1
     - waveName: "\u7B2C4\u6CE2"
       zombies:
@@ -2025,6 +2025,198 @@ MonoBehaviour:
       amount: 10
       icon: {fileID: 21300000, guid: 0a4e07e2e64368e4c88509c0d436035d, type: 3}
   - levelName: "2.\u57CE\u5821\u8FB9\u9672"
+    levelIcon: {fileID: 21300000, guid: 8790a65501979524f8a24e652b092bdf, type: 3}
+    backgroundImage: {fileID: 21300000, guid: 23c1dc9834252ee4e8b4d58188ad1913, type: 3}
+    isUnlocked: 0
+    waves:
+    - waveName: "\u7B2C1\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
+        count: 6
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C2\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C3\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C4\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C5\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C6\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C7\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C8\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    winRewards:
+    - type: 0
+      amount: 200
+      icon: {fileID: 21300000, guid: 0a4e07e2e64368e4c88509c0d436035d, type: 3}
+    - type: 1
+      amount: 12
+      icon: {fileID: 21300000, guid: 4beada72da36fbd41a6f803a2f8fa412, type: 3}
+    loseRewards:
+    - type: 0
+      amount: 10
+      icon: {fileID: 21300000, guid: 0a4e07e2e64368e4c88509c0d436035d, type: 3}
+  - levelName: "3.\u6C99\u6F20\u4E4B\u4E2D"
+    levelIcon: {fileID: 21300000, guid: 8790a65501979524f8a24e652b092bdf, type: 3}
+    backgroundImage: {fileID: 21300000, guid: 23c1dc9834252ee4e8b4d58188ad1913, type: 3}
+    isUnlocked: 0
+    waves:
+    - waveName: "\u7B2C1\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
+        count: 6
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C2\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C3\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C4\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C5\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C6\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C7\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C8\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    winRewards:
+    - type: 0
+      amount: 200
+      icon: {fileID: 21300000, guid: 0a4e07e2e64368e4c88509c0d436035d, type: 3}
+    - type: 1
+      amount: 12
+      icon: {fileID: 21300000, guid: 4beada72da36fbd41a6f803a2f8fa412, type: 3}
+    loseRewards:
+    - type: 0
+      amount: 10
+      icon: {fileID: 21300000, guid: 0a4e07e2e64368e4c88509c0d436035d, type: 3}
+  - levelName: "4.\u6797\u6D77\u96EA\u539F"
+    levelIcon: {fileID: 21300000, guid: 8790a65501979524f8a24e652b092bdf, type: 3}
+    backgroundImage: {fileID: 21300000, guid: 23c1dc9834252ee4e8b4d58188ad1913, type: 3}
+    isUnlocked: 0
+    waves:
+    - waveName: "\u7B2C1\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
+        count: 6
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C2\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C3\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C4\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C5\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C6\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C7\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    - waveName: "\u7B2C8\u6CE2"
+      zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+        count: 3
+      spawnInterval: 3
+      mixChance: 1
+    winRewards:
+    - type: 0
+      amount: 200
+      icon: {fileID: 21300000, guid: 0a4e07e2e64368e4c88509c0d436035d, type: 3}
+    - type: 1
+      amount: 12
+      icon: {fileID: 21300000, guid: 4beada72da36fbd41a6f803a2f8fa412, type: 3}
+    loseRewards:
+    - type: 0
+      amount: 10
+      icon: {fileID: 21300000, guid: 0a4e07e2e64368e4c88509c0d436035d, type: 3}
+  - levelName: "5.\u6DF1\u6D77\u8FF7\u822A"
     levelIcon: {fileID: 21300000, guid: 8790a65501979524f8a24e652b092bdf, type: 3}
     backgroundImage: {fileID: 21300000, guid: 23c1dc9834252ee4e8b4d58188ad1913, type: 3}
     isUnlocked: 0
