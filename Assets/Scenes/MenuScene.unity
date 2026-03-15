@@ -4943,8 +4943,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b365409d0aa1baa409a19a068a3758e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultCoins: 0
-  defaultDiamonds: 0
+  defaultCoins: 10
+  defaultDiamonds: 10
   defaultEnergy: 100
   defaultMaxEnergy: 100
   enableEnergyRegen: 1
