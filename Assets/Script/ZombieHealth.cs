@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class ZombieHealth : MonoBehaviour
 {
-    
-
     [Header("血量基础设置")]
     public int maxHealth = 5;
     public float healthBarYOffset = 0.8f;
@@ -36,9 +34,23 @@ public class ZombieHealth : MonoBehaviour
     public int splitCount = 2;
     public float splitOffset = 0.5f;
 
+    [Header("护盾设置")]
+    public bool useShield = false;
+    public int shieldHits = 3;
+    [Range(0f, 1f)]
+    public float damageReductionPercent = 0.5f;
+    public GameObject shieldEffectPrefab;
+    public float shieldEffectDuration = 0.5f;
+    public Color shieldColor = new Color(0f, 0.5f, 1f, 0.5f);
+    public float shieldShowDuration = 1f;
+    public float shieldScaleMultiplier = 1.2f;
+
     private int _currentHealth;
     private Transform _fillTransform;
     private bool isDead = false;
+    private int remainingShieldHits;
+    private GameObject currentShieldEffect;
+    private SpriteRenderer zombieSpriteRenderer;
 
     private void Awake()
     {
@@ -58,8 +70,11 @@ public class ZombieHealth : MonoBehaviour
     private void Start()
     {
         _currentHealth = maxHealth;
+        remainingShieldHits = shieldHits;
         InitHealthBarLayout();
         UpdateHealthBarVisual();
+        
+        zombieSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void InitHealthBarLayout()
@@ -101,7 +116,30 @@ public class ZombieHealth : MonoBehaviour
     {
         if (isDead || _currentHealth <= 0) return;
 
-        _currentHealth = Mathf.Max(0, _currentHealth - damage);
+        int actualDamage = damage;
+        
+        if (useShield)
+        {
+            if (remainingShieldHits > 0)
+            {
+                remainingShieldHits--;
+                
+                actualDamage = Mathf.RoundToInt(damage * (1f - damageReductionPercent));
+                
+                if (shieldEffectPrefab != null)
+                {
+                    ShowShieldEffectWithAnimation();
+                }
+                
+                if (remainingShieldHits <= 0)
+                {
+                    StopAllCoroutines();
+                    HideShieldEffect();
+                }
+            }
+        }
+
+        _currentHealth = Mathf.Max(0, _currentHealth - actualDamage);
         UpdateHealthBarVisual();
 
         if (hitSound != null && audioSource != null)
@@ -130,6 +168,114 @@ public class ZombieHealth : MonoBehaviour
         if (_currentHealth <= 0)
         {
             Die();
+        }
+    }
+    
+    private void ShowShieldEffectWithAnimation()
+    {
+        StopAllCoroutines();
+        
+        if (currentShieldEffect != null)
+        {
+            Destroy(currentShieldEffect);
+        }
+        
+        if (shieldEffectPrefab != null)
+        {
+            currentShieldEffect = Instantiate(shieldEffectPrefab, transform);
+            currentShieldEffect.transform.localPosition = Vector3.zero;
+            
+            SpriteRenderer shieldSprite = currentShieldEffect.GetComponent<SpriteRenderer>();
+            if (shieldSprite != null)
+            {
+                shieldSprite.color = new Color(shieldColor.r, shieldColor.g, shieldColor.b, 0f);
+            }
+            
+            StartCoroutine(ShieldAppearAndDisappearAnimation());
+        }
+    }
+    
+    private System.Collections.IEnumerator ShieldAppearAndDisappearAnimation()
+    {
+        if (currentShieldEffect == null)
+        {
+            yield break;
+        }
+        
+        SpriteRenderer shieldSprite = currentShieldEffect.GetComponent<SpriteRenderer>();
+        if (shieldSprite == null)
+        {
+            yield break;
+        }
+        
+        Transform shieldTransform = currentShieldEffect.transform;
+        Vector3 originalScale = shieldTransform.localScale;
+        Vector3 targetScale = originalScale * shieldScaleMultiplier;
+        Color targetColor = shieldColor;
+        
+        float appearDuration = shieldEffectDuration / 2f;
+        float elapsedTime = 0f;
+        
+        while (elapsedTime < appearDuration)
+        {
+            if (currentShieldEffect == null || shieldSprite == null)
+            {
+                yield break;
+            }
+            
+            float t = elapsedTime / appearDuration;
+            shieldTransform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+            shieldSprite.color = Color.Lerp(new Color(targetColor.r, targetColor.g, targetColor.b, 0f), targetColor, t);
+            
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        if (currentShieldEffect != null && shieldSprite != null)
+        {
+            shieldTransform.localScale = targetScale;
+            shieldSprite.color = targetColor;
+        }
+        
+        elapsedTime = 0f;
+        while (elapsedTime < shieldShowDuration)
+        {
+            if (currentShieldEffect == null || shieldSprite == null)
+            {
+                yield break;
+            }
+            
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        float disappearDuration = shieldEffectDuration / 2f;
+        elapsedTime = 0f;
+        
+        while (elapsedTime < disappearDuration)
+        {
+            if (currentShieldEffect == null || shieldSprite == null)
+            {
+                yield break;
+            }
+            
+            float t = elapsedTime / disappearDuration;
+            shieldTransform.localScale = Vector3.Lerp(targetScale, originalScale, t);
+            shieldSprite.color = Color.Lerp(targetColor, new Color(targetColor.r, targetColor.g, targetColor.b, 0f), t);
+            
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        HideShieldEffect();
+    }
+    
+    private void HideShieldEffect()
+    {
+        if (currentShieldEffect != null)
+        {
+            Destroy(currentShieldEffect);
+            currentShieldEffect = null;
         }
     }
 
