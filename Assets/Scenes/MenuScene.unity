@@ -3200,10 +3200,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1540090355}
-  - {fileID: 598142985}
-  - {fileID: 244523568}
   - {fileID: 1838748570}
   - {fileID: 1360172375}
+  - {fileID: 598142985}
+  - {fileID: 244523568}
   m_Father: {fileID: 1910581756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8540,9 +8540,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotContainer: {fileID: 1589945670}
   slotPrefab: {fileID: 1145131760032424678, guid: 6dcfc9c62027a674892999e517f53687, type: 3}
-  coinIcon: {fileID: 0}
-  diamondIcon: {fileID: 0}
-  energyIcon: {fileID: 0}
+  coinIcon: {fileID: 21300000, guid: 0a4e07e2e64368e4c88509c0d436035d, type: 3}
+  diamondIcon: {fileID: 21300000, guid: 4beada72da36fbd41a6f803a2f8fa412, type: 3}
+  energyIcon: {fileID: 21300000, guid: ef4a4a3f3dd9c344bb693b52debafa50, type: 3}
 --- !u!1 &1390698199
 GameObject:
   m_ObjectHideFlags: 0
