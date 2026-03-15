@@ -28,7 +28,7 @@ public class TowerUnlockManager : MonoBehaviour
             _instance = this;
             if (transform.parent != null)
             {
-                transform.SetParent(null);
+                transform.SetParent(null, false);
             }
             DontDestroyOnLoad(gameObject);
             LoadUnlockedTowers();

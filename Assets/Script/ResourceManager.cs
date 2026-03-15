@@ -31,7 +31,7 @@ public class ResourceManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            transform.SetParent(null);
+            transform.SetParent(null, false);
             DontDestroyOnLoad(gameObject);
         }
         else

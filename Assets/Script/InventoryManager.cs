@@ -14,7 +14,7 @@ public class InventoryManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            transform.parent = null;
+            transform.SetParent(null, false);
             DontDestroyOnLoad(gameObject);
         }
         else
