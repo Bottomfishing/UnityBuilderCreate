@@ -1938,17 +1938,19 @@ MonoBehaviour:
   levelIconImage: {fileID: 1233420862}
   levelStatusText: {fileID: 1975035325}
   levels:
-  - levelName: "1.\u68EE\u6797\u57CE\u5821"
+  - levelName: "1.\u68EE\u6797"
     levelIcon: {fileID: 21300000, guid: c44ce9a386c6c5641becfc62d86f00f7, type: 3}
     backgroundImage: {fileID: 21300000, guid: 305d3fead7e9e444bbb6ac031fce1e7e, type: 3}
     isUnlocked: 1
     waves:
     - waveName: "\u7B2C1\u6CE2"
       zombies:
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 7c16f96b3ba388a48a2e8eb6598ec5ca, type: 3}
+        count: 6
       - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
         count: 6
       spawnInterval: 2.1
-      mixChance: 1
+      mixChance: 0
     - waveName: "\u7B2C2\u6CE2"
       zombies:
       - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
@@ -2032,50 +2034,78 @@ MonoBehaviour:
     - waveName: "\u7B2C1\u6CE2"
       zombies:
       - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
-        count: 6
-      spawnInterval: 3
+        count: 10
+      spawnInterval: 2
       mixChance: 1
     - waveName: "\u7B2C2\u6CE2"
       zombies:
-      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
-        count: 3
-      spawnInterval: 3
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
+        count: 5
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 9c457b528b29214409e99326370cd452, type: 3}
+        count: 7
+      spawnInterval: 1.8
       mixChance: 1
     - waveName: "\u7B2C3\u6CE2"
       zombies:
-      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
-        count: 3
-      spawnInterval: 3
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
+        count: 8
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e7e031708c874554ab02403e52c6fb57, type: 3}
+        count: 4
+      spawnInterval: 1.6
       mixChance: 1
     - waveName: "\u7B2C4\u6CE2"
       zombies:
-      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
-        count: 3
-      spawnInterval: 3
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
+        count: 4
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 9c457b528b29214409e99326370cd452, type: 3}
+        count: 7
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e7e031708c874554ab02403e52c6fb57, type: 3}
+        count: 4
+      spawnInterval: 1.5
       mixChance: 1
     - waveName: "\u7B2C5\u6CE2"
       zombies:
-      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
-        count: 3
-      spawnInterval: 3
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e7e031708c874554ab02403e52c6fb57, type: 3}
+        count: 6
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 9e8a30a64d4dc14418bf5adf198da5d1, type: 3}
+        count: 6
+      spawnInterval: 1.3
       mixChance: 1
     - waveName: "\u7B2C6\u6CE2"
       zombies:
-      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e7e031708c874554ab02403e52c6fb57, type: 3}
         count: 3
-      spawnInterval: 3
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 9c457b528b29214409e99326370cd452, type: 3}
+        count: 5
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 9e8a30a64d4dc14418bf5adf198da5d1, type: 3}
+        count: 4
+      spawnInterval: 1.1
       mixChance: 1
     - waveName: "\u7B2C7\u6CE2"
       zombies:
-      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
+        count: 9
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 9c457b528b29214409e99326370cd452, type: 3}
+        count: 7
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e7e031708c874554ab02403e52c6fb57, type: 3}
+        count: 5
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 9e8a30a64d4dc14418bf5adf198da5d1, type: 3}
         count: 3
-      spawnInterval: 3
+      spawnInterval: 1
       mixChance: 1
     - waveName: "\u7B2C8\u6CE2"
       zombies:
-      - zombiePrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
-        count: 3
-      spawnInterval: 3
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
+        count: 12
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 9c457b528b29214409e99326370cd452, type: 3}
+        count: 9
+      - zombiePrefab: {fileID: 8638358505556251938, guid: e7e031708c874554ab02403e52c6fb57, type: 3}
+        count: 9
+      - zombiePrefab: {fileID: 8638358505556251938, guid: 9e8a30a64d4dc14418bf5adf198da5d1, type: 3}
+        count: 7
+      - zombiePrefab: {fileID: 8638358505556251938, guid: c742f9d52edaef34bb45c8b6f757d96c, type: 3}
+        count: 2
+      spawnInterval: 0.9
       mixChance: 1
     winRewards:
     - type: 0
@@ -11141,17 +11171,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopItems:
-  - itemName: "\u89E3\u9501\u5BD2\u51B0\u70AE\u5854"
-    description: "\u53EF\u4EE5\u5C04\u51FA\u8BA9\u50F5\u5C38\u51CF\u901F\u7684\u5B50\u5F39"
-    icon: {fileID: 21300000, guid: 3f9eaf5ab23ea3240a49afe0d91ab4a9, type: 3}
-    type: 3
-    showHotTag: 1
-    showLimitedTag: 1
-    canRepeatPurchase: 0
-    price: 10
-    useDiamonds: 1
-    towerNameToUnlock: "\u4F4E\u7EA7\u5BD2\u51B0\u5854"
-    amount: 0
   - itemName: "\u89E3\u9501\u4E2D\u7EA7\u57FA\u7840\u5854"
     description: "\u4F4E\u7EA7\u57FA\u7840\u5854\u7684\u5347\u7EA7"
     icon: {fileID: 21300000, guid: 0fa982ae6897653489abb16c57de9401, type: 3}
@@ -11174,17 +11193,28 @@ MonoBehaviour:
     useDiamonds: 0
     towerNameToUnlock: "\u9AD8\u7EA7\u57FA\u7840\u5854"
     amount: 0
-  - itemName: "\u94BB\u77F3"
-    description: "\u7528\u91D1\u5E01\u6362\u94BB\u77F3"
-    icon: {fileID: 21300000, guid: 4beada72da36fbd41a6f803a2f8fa412, type: 3}
-    type: 1
+  - itemName: "\u89E3\u9501\u5BD2\u51B0\u70AE\u5854"
+    description: "\u53EF\u4F7F\u50F5\u5C38\u51CF\u901F"
+    icon: {fileID: 21300000, guid: 3f9eaf5ab23ea3240a49afe0d91ab4a9, type: 3}
+    type: 3
     showHotTag: 1
     showLimitedTag: 1
-    canRepeatPurchase: 1
-    price: 500
-    useDiamonds: 0
-    towerNameToUnlock: 
-    amount: 10
+    canRepeatPurchase: 0
+    price: 10
+    useDiamonds: 1
+    towerNameToUnlock: "\u4F4E\u7EA7\u5BD2\u51B0\u5854"
+    amount: 0
+  - itemName: "\u89E3\u9501\u706B\u7130\u70AE\u5854"
+    description: "\u5BF9\u50F5\u5C38\u4EA7\u751F\u8303\u56F4\u4F24\u5BB3"
+    icon: {fileID: 21300000, guid: 79cfeb5da337f3d4db374f19772fee91, type: 3}
+    type: 3
+    showHotTag: 1
+    showLimitedTag: 1
+    canRepeatPurchase: 0
+    price: 20
+    useDiamonds: 1
+    towerNameToUnlock: "\u4F4E\u7EA7\u706B\u7130\u5854"
+    amount: 0
   - itemName: "\u91D1\u5E01"
     description: "\u7528\u94BB\u77F3\u6362\u91D1\u5E01"
     icon: {fileID: 21300000, guid: 0a4e07e2e64368e4c88509c0d436035d, type: 3}
@@ -11196,6 +11226,17 @@ MonoBehaviour:
     useDiamonds: 1
     towerNameToUnlock: 
     amount: 500
+  - itemName: "\u94BB\u77F3"
+    description: "\u7528\u91D1\u5E01\u6362\u94BB\u77F3"
+    icon: {fileID: 21300000, guid: 4beada72da36fbd41a6f803a2f8fa412, type: 3}
+    type: 1
+    showHotTag: 1
+    showLimitedTag: 1
+    canRepeatPurchase: 1
+    price: 500
+    useDiamonds: 0
+    towerNameToUnlock: 
+    amount: 10
   contentContainer: {fileID: 161376602}
   shopItemPrefab: {fileID: 2738255144070467757, guid: 396f8894a19e8bd4f8660849eb2f4eb3, type: 3}
 --- !u!1 &1826636837
