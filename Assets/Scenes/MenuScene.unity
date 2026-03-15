@@ -1945,12 +1945,10 @@ MonoBehaviour:
     waves:
     - waveName: "\u7B2C1\u6CE2"
       zombies:
-      - zombiePrefab: {fileID: 8638358505556251938, guid: 7c16f96b3ba388a48a2e8eb6598ec5ca, type: 3}
-        count: 6
       - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
         count: 6
       spawnInterval: 2.1
-      mixChance: 0
+      mixChance: 1
     - waveName: "\u7B2C2\u6CE2"
       zombies:
       - zombiePrefab: {fileID: 8638358505556251938, guid: 326368ace9665004ca31a3488ddae6a5, type: 3}
