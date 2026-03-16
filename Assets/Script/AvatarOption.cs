@@ -19,6 +19,8 @@ public class AvatarOption : MonoBehaviour, IPointerClickHandler
         if (avatarImage != null)
         {
             avatarImage.sprite = avatar;
+            // Enable raycast target so the image can receive pointer click events
+            avatarImage.raycastTarget = true;
         }
 
         SetSelected(isSelected);

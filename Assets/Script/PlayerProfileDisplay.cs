@@ -17,6 +17,7 @@ public class PlayerProfileDisplay : MonoBehaviour, IPointerClickHandler
     public GameObject avatarSelectPanel;
     public Transform avatarContainer;
     public GameObject avatarOptionPrefab;
+    public Button closeAvatarButton;
 
     private void Awake()
     {
@@ -28,6 +29,11 @@ public class PlayerProfileDisplay : MonoBehaviour, IPointerClickHandler
         if (cancelNameButton != null)
         {
             cancelNameButton.onClick.AddListener(OnCancelName);
+        }
+
+        if (closeAvatarButton != null)
+        {
+            closeAvatarButton.onClick.AddListener(CloseAvatarSelection);
         }
     }
 
@@ -76,19 +82,16 @@ public class PlayerProfileDisplay : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         GameObject clickedObject = eventData.pointerCurrentRaycast.gameObject;
-        Debug.Log($"点击了: {clickedObject?.name}");
         
         if (avatarImage != null)
         {
             if (clickedObject == avatarImage.gameObject || clickedObject.transform.IsChildOf(avatarImage.transform))
             {
-                Debug.Log("打开头像选择");
                 OpenAvatarSelection();
                 return;
             }
         }
         
-        Debug.Log("打开名字编辑");
         OpenNameEdit();
     }
 
@@ -103,6 +106,12 @@ public class PlayerProfileDisplay : MonoBehaviour, IPointerClickHandler
                 nameInputField.text = PlayerProfileManager.instance.GetPlayerName();
                 nameInputField.Select();
             }
+        }
+        
+        // 关闭头像选择弹窗
+        if (avatarSelectPanel != null)
+        {
+            avatarSelectPanel.SetActive(false);
         }
     }
 
@@ -135,6 +144,12 @@ public class PlayerProfileDisplay : MonoBehaviour, IPointerClickHandler
             avatarSelectPanel.SetActive(true);
             RefreshAvatarOptions();
         }
+        
+        // 关闭名字编辑弹窗
+        if (nameEditPanel != null)
+        {
+            nameEditPanel.SetActive(false);
+        }
     }
 
     public void CloseAvatarSelection()
@@ -159,9 +174,12 @@ public class PlayerProfileDisplay : MonoBehaviour, IPointerClickHandler
         Sprite[] avatars = PlayerProfileManager.instance.GetAvailableAvatars();
         int currentIndex = PlayerProfileManager.instance.GetAvatarIndex();
 
+        if (avatars == null || avatars.Length == 0) return;
+
         for (int i = 0; i < avatars.Length; i++)
         {
             GameObject optionObj = Instantiate(avatarOptionPrefab, avatarContainer);
+            
             AvatarOption option = optionObj.GetComponent<AvatarOption>();
             
             if (option != null)

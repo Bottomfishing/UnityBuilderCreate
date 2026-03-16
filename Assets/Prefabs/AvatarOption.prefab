@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 8017838907354557328}
   - component: {fileID: 867440113212322769}
   - component: {fileID: 2612937363887049603}
+  - component: {fileID: 6492493693692803500}
   m_Layer: 5
   m_Name: AvatarOption
   m_TagString: Untagged
@@ -227,3 +228,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6492493693692803500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928293870431228254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f33b34ac32394e4eaba0d4703bf7edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  avatarImage: {fileID: 3256146874688926422}
+  selectBorder: {fileID: 2585980847631130283}
