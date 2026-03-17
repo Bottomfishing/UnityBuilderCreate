@@ -56,16 +56,22 @@ public class ResourceManager : MonoBehaviour
     
     private void HandleDebugKeys()
     {
+        // 只在非游戏场景中使用资源调试快捷键
+        if (LevelManager.instance != null)
+        {
+            return;
+        }
+        
         if (Input.GetKeyDown(KeyCode.F1))
         {
             AddCoins(1000);
-            Debug.Log("获得1000金币！");
+            Debug.Log("获得 1000 金币！");
         }
         
         if (Input.GetKeyDown(KeyCode.F2))
         {
             AddDiamonds(100);
-            Debug.Log("获得100钻石！");
+            Debug.Log("获得 100 钻石！");
         }
         
         if (Input.GetKeyDown(KeyCode.F3))

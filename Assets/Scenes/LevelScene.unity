@@ -4682,7 +4682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e929236018082d4f889359e5ea9da3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableDebug: 0
+  enableDebug: 1
   testZombieCount: 0
 --- !u!4 &1425831002
 Transform:
