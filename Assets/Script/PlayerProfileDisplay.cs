@@ -104,7 +104,17 @@ public class PlayerProfileDisplay : MonoBehaviour, IPointerClickHandler
             if (nameInputField != null && PlayerProfileManager.instance != null)
             {
                 nameInputField.text = PlayerProfileManager.instance.GetPlayerName();
+                
+                #if UNITY_ANDROID || UNITY_IOS
+                // 移动端：打开触摸键盘
                 nameInputField.Select();
+                nameInputField.ActivateInputField();
+                TouchScreenKeyboard.Open(nameInputField.text, TouchScreenKeyboardType.Default, false, false, false, false);
+                #else
+                // PC端：直接选中输入框
+                nameInputField.Select();
+                nameInputField.ActivateInputField();
+                #endif
             }
         }
         
