@@ -160,18 +160,21 @@ public class ResourceManager : MonoBehaviour
     {
         playerData.coins += amount;
         SaveData();
+        NotifyResourceChanged();
     }
-    
+
     public void AddDiamonds(int amount)
     {
         playerData.diamonds += amount;
         SaveData();
+        NotifyResourceChanged();
     }
-    
+
     public void AddEnergy(int amount)
     {
         playerData.energy = Mathf.Min(playerData.energy + amount, playerData.maxEnergy);
         SaveData();
+        NotifyResourceChanged();
     }
     
     public bool SpendCoins(int amount)

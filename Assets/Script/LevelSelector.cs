@@ -131,14 +131,20 @@ public class LevelSelector : MonoBehaviour
     
     private void OnStartButtonClick()
     {
+        Debug.Log("=== [验证] OnStartButtonClick 被调用 ===");
+        
         if (levels == null || currentLevelIndex >= levels.Length)
         {
+            Debug.LogWarning("=== [验证] levels 为空或索引超出范围 ===");
             return;
         }
         
         LevelData currentLevel = levels[currentLevelIndex];
+        Debug.Log($"=== [验证] 选择关卡: {currentLevel.levelName}, 已解锁: {currentLevel.isUnlocked}, Waves: {(currentLevel.waves != null ? currentLevel.waves.Length : 0)} ===");
+        
         if (!currentLevel.isUnlocked)
         {
+            Debug.LogWarning("=== [验证] 关卡未解锁 ===");
             return;
         }
         
@@ -147,19 +153,23 @@ public class LevelSelector : MonoBehaviour
         {
             if (!ResourceManager.instance.SpendEnergy(10))
             {
+                Debug.LogWarning("=== [验证] 体力不足 ===");
                 return;
             }
         }
         
         LevelDataContainer.selectedLevelData = currentLevel;
+        Debug.Log($"=== [验证] 设置 selectedLevelData ===");
         
         SceneSwitch sceneSwitch = FindObjectOfType<SceneSwitch>();
         if (sceneSwitch != null)
         {
+            Debug.Log("=== [验证] 使用 SceneSwitch 加载场景 ===");
             sceneSwitch.LoadScene("LevelScene");
         }
         else
         {
+            Debug.Log("=== [验证] 使用 SceneManager 加载场景 ===");
             UnityEngine.SceneManagement.SceneManager.LoadScene("LevelScene");
         }
     }

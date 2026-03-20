@@ -30,25 +30,33 @@ public class ZombieSpawner : MonoBehaviour
     {
         LoadLevelData();
         ResetSpawner();
-        
+
         if (Time.timeScale == 0)
         {
             Time.timeScale = 1;
         }
-        
+
         if (LevelManager.instance != null)
         {
             LevelManager.instance.StartTimer();
         }
-        
+
         StartWave();
     }
-    
+
     private void LoadLevelData()
     {
+        Debug.Log("=== [验证] ZombieSpawner.LoadLevelData 被调用 ===");
+        Debug.Log($"=== [验证] selectedLevelData: {(LevelDataContainer.selectedLevelData != null ? LevelDataContainer.selectedLevelData.levelName : "null")} ===");
+        
         if (LevelDataContainer.selectedLevelData != null)
         {
             waves = LevelDataContainer.selectedLevelData.waves;
+            Debug.Log($"=== [验证] waves 已加载，长度: {(waves != null ? waves.Length : 0)} ===");
+        }
+        else
+        {
+            Debug.LogWarning("=== [验证] selectedLevelData 为空！waves 未加载！ ===");
         }
     }
     
@@ -148,29 +156,29 @@ public class ZombieSpawner : MonoBehaviour
         {
             return;
         }
-        
+
         WaveData wave = waves[currentWave];
         if (wave.zombies == null || wave.zombies.Length == 0)
         {
             return;
         }
-        
+
         int selectedIndex = GetNextZombieIndex(wave);
-        
+
         if (selectedIndex < 0)
         {
             return;
         }
-        
+
         GameObject selectedPrefab = wave.zombies[selectedIndex].zombiePrefab;
         if (selectedPrefab == null)
         {
             return;
         }
-        
+
         GameObject unitManager = GameObject.Find("UnitManager");
         Transform parentTransform = unitManager != null ? unitManager.transform : null;
-        
+
         GameObject zombie = Instantiate(selectedPrefab, spawnPoint.transform.position, Quaternion.identity, parentTransform);
         
         ZombieMovement zombieMove = zombie.GetComponent<ZombieMovement>();

@@ -14,17 +14,23 @@ public class DebugTools : MonoBehaviour
     private void Update()
     {
         if (!enableDebug) return;
-        
+
         // 快速胜利 (F1)
         if (Input.GetKeyDown(KeyCode.F1))
         {
             QuickWin();
         }
-        
+
         // 快速失败 (F2)
         if (Input.GetKeyDown(KeyCode.F2))
         {
             QuickLose();
+        }
+
+        // 测试成就弹出 (F6)
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            TestAchievementPopup();
         }
     }
     
@@ -71,5 +77,47 @@ public class DebugTools : MonoBehaviour
         
         LevelManager.instance.LevelLose();
         Debug.Log("=== 快速失败完成 ===");
+    }
+
+    /// <summary>
+    /// 测试成就弹出
+    /// </summary>
+    public void TestAchievementPopup()
+    {
+        Debug.Log("=== 测试成就弹出 ===");
+
+        if (AchievementManager.instance == null)
+        {
+            Debug.LogError("❌ AchievementManager实例不存在！");
+            return;
+        }
+
+        if (AchievementPopup.instance == null)
+        {
+            Debug.LogError("❌ AchievementPopup实例不存在！请在场景中创建成就弹窗预制体");
+            return;
+        }
+
+        var achievements = AchievementManager.instance.GetIncompleteAchievements();
+        if (achievements.Count > 0)
+        {
+            AchievementPopup.instance.ShowAchievement(achievements[0]);
+            Debug.Log($"✅ 显示成就弹窗: {achievements[0].achievementName}");
+        }
+        else
+        {
+            var allAchievements = AchievementManager.instance.GetAllAchievements();
+            if (allAchievements.Count > 0)
+            {
+                AchievementPopup.instance.ShowAchievement(allAchievements[0]);
+                Debug.Log($"✅ 所有成就已完成，测试显示第一个成就: {allAchievements[0].achievementName}");
+            }
+            else
+            {
+                Debug.LogWarning("⚠️ 没有成就数据！");
+            }
+        }
+
+        Debug.Log("=== 测试成就弹出完成 ===");
     }
 }
