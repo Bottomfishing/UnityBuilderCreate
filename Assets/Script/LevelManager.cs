@@ -41,6 +41,20 @@ public class LevelManager : MonoBehaviour
     private int totalZombies = 0;
     private int processedZombies = 0;
 
+    private ZombieSpawner cachedSpawner;
+    private int activeZombieCount = 0;
+
+    public void RegisterZombie()
+    {
+        activeZombieCount++;
+    }
+
+    public void UnregisterZombie()
+    {
+        activeZombieCount--;
+        if (activeZombieCount < 0) activeZombieCount = 0;
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -52,10 +66,15 @@ public class LevelManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
+
         UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    
+
+    private void Start()
+    {
+        cachedSpawner = FindObjectOfType<ZombieSpawner>();
+    }
+
     private void Update()
     {
         if (isTimerRunning && !isPaused && !isLevelWin)
@@ -63,18 +82,16 @@ public class LevelManager : MonoBehaviour
             elapsedTime += Time.deltaTime;
             UpdateTimerDisplay();
         }
-        
+
         if (shouldCheckForWin && !isLevelWin)
         {
-            ZombieMovement[] zombies = FindObjectsOfType<ZombieMovement>();
-            if (zombies.Length == 0)
+            if (activeZombieCount <= 0)
             {
                 shouldCheckForWin = false;
-                
-                ZombieSpawner zombieSpawner = FindObjectOfType<ZombieSpawner>();
-                if (zombieSpawner != null && zombieSpawner.currentWave + 1 < zombieSpawner.TotalWaves)
+
+                if (cachedSpawner != null && cachedSpawner.currentWave + 1 < cachedSpawner.TotalWaves)
                 {
-                    zombieSpawner.OnWaveComplete();
+                    cachedSpawner.OnWaveComplete();
                 }
                 else
                 {

@@ -32,9 +32,7 @@ public class AchievementPopup : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("=== [AchievementPopup] Awake 被调用 ===");
         instance = this;
-        Debug.Log($"=== [AchievementPopup] instance 已设置: {instance != null} ===");
 
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null)

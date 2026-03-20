@@ -46,17 +46,9 @@ public class ZombieSpawner : MonoBehaviour
 
     private void LoadLevelData()
     {
-        Debug.Log("=== [验证] ZombieSpawner.LoadLevelData 被调用 ===");
-        Debug.Log($"=== [验证] selectedLevelData: {(LevelDataContainer.selectedLevelData != null ? LevelDataContainer.selectedLevelData.levelName : "null")} ===");
-        
         if (LevelDataContainer.selectedLevelData != null)
         {
             waves = LevelDataContainer.selectedLevelData.waves;
-            Debug.Log($"=== [验证] waves 已加载，长度: {(waves != null ? waves.Length : 0)} ===");
-        }
-        else
-        {
-            Debug.LogWarning("=== [验证] selectedLevelData 为空！waves 未加载！ ===");
         }
     }
     

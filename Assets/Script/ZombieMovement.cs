@@ -40,7 +40,6 @@ public class ZombieMovement : MonoBehaviour
     {
         gridManager = FindObjectOfType<GridManager>();
         pathfinding = FindObjectOfType<Pathfinding>();
-        // 设置僵尸标签
         gameObject.tag = "Zombie";
     }
 
@@ -53,7 +52,20 @@ public class ZombieMovement : MonoBehaviour
             originalColor = zombieSpriteRenderer.color;
         }
         CalculatePath();
-        lastPos = transform.position; // 初始化上一帧位置
+        lastPos = transform.position;
+
+        if (LevelManager.instance != null)
+        {
+            LevelManager.instance.RegisterZombie();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (LevelManager.instance != null)
+        {
+            LevelManager.instance.UnregisterZombie();
+        }
     }
 
     private void Update()
