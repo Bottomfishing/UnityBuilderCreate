@@ -1,0 +1,12 @@
+{
+  "subpackages": [
+    {
+      "name": "game",
+      "root": "wasmcode"
+    },
+    {
+      "name": "resources",
+      "root": "data-package"
+    }
+  ]
+}

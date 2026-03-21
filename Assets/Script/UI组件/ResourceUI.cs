@@ -9,6 +9,9 @@ public class ResourceUI : MonoBehaviour
     public Text energyText;
     public Text regenTimeText;
     
+    private float regenUpdateInterval = 1f;
+    private float regenUpdateTimer = 0f;
+    
     private void Start()
     {
         UpdateUI();
@@ -29,7 +32,12 @@ public class ResourceUI : MonoBehaviour
     
     private void Update()
     {
-        UpdateRegenTime();
+        regenUpdateTimer += Time.deltaTime;
+        if (regenUpdateTimer >= regenUpdateInterval)
+        {
+            regenUpdateTimer = 0f;
+            UpdateRegenTime();
+        }
     }
     
     public void UpdateUI()

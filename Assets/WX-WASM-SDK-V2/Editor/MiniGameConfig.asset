@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
-    projectName: jiangshi
+    projectName: "\u9632\u7EBF\u5B88\u536B\u6218"
     Appid: wx6872b1e938e23c07
     CDN: 
     assetLoadType: 1

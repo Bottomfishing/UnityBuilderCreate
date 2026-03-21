@@ -18,7 +18,9 @@ public class ZombieMovement : MonoBehaviour
     private List<Vector3> path;
     private int currentPathIndex;
     private bool isCalculatingPath;
-    private Vector3 lastPos; // 记录上一帧位置，判断是否回头
+    private Vector3 lastPos;
+    private static GridManager cachedGridManager;
+    private static Pathfinding cachedPathfinding;
     
     [Header("减速设置")]
     private bool isSlowed = false;
@@ -38,8 +40,18 @@ public class ZombieMovement : MonoBehaviour
 
     private void Awake()
     {
-        gridManager = FindObjectOfType<GridManager>();
-        pathfinding = FindObjectOfType<Pathfinding>();
+        if (cachedGridManager == null)
+        {
+            cachedGridManager = FindObjectOfType<GridManager>();
+        }
+        gridManager = cachedGridManager;
+        
+        if (cachedPathfinding == null)
+        {
+            cachedPathfinding = FindObjectOfType<Pathfinding>();
+        }
+        pathfinding = cachedPathfinding;
+        
         gameObject.tag = "Zombie";
     }
 

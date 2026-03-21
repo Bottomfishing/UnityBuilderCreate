@@ -16,8 +16,10 @@ public class GridManager : MonoBehaviour
     
     [Header("网格显示")]
     public bool showGridInGame = true;
+    public bool showGridInEditor = true;
     
     private CellType[,] gridCells;
+    private Camera mainCamera;
     
     private void Awake()
     {
@@ -29,6 +31,7 @@ public class GridManager : MonoBehaviour
                 gridCells[x, y] = CellType.Walkable;
             }
         }
+        mainCamera = Camera.main;
     }
     
     private void OnDrawGizmos()
@@ -68,7 +71,7 @@ public class GridManager : MonoBehaviour
     
     private void OnGUI()
     {
-        if (!showGridInGame) return;
+        if (!showGridInGame || mainCamera == null) return;
         
         GUI.color = new Color(0.3f, 0.3f, 0.3f, 0.2f);
         
@@ -77,8 +80,8 @@ public class GridManager : MonoBehaviour
             Vector3 startWorld = new Vector3(gridOrigin.x + x * cellSize, gridOrigin.y, 0);
             Vector3 endWorld = new Vector3(gridOrigin.x + x * cellSize, gridOrigin.y + gridHeight * cellSize, 0);
             
-            Vector2 startScreen = Camera.main.WorldToScreenPoint(startWorld);
-            Vector2 endScreen = Camera.main.WorldToScreenPoint(endWorld);
+            Vector2 startScreen = mainCamera.WorldToScreenPoint(startWorld);
+            Vector2 endScreen = mainCamera.WorldToScreenPoint(endWorld);
             
             startScreen.y = Screen.height - startScreen.y;
             endScreen.y = Screen.height - endScreen.y;
@@ -91,13 +94,13 @@ public class GridManager : MonoBehaviour
             Vector3 startWorld = new Vector3(gridOrigin.x, gridOrigin.y + y * cellSize, 0);
             Vector3 endWorld = new Vector3(gridOrigin.x + gridWidth * cellSize, gridOrigin.y + y * cellSize, 0);
             
-            Vector2 startScreen = Camera.main.WorldToScreenPoint(startWorld);
-            Vector2 endScreen = Camera.main.WorldToScreenPoint(endWorld);
+            Vector2 startScreen2 = mainCamera.WorldToScreenPoint(startWorld);
+            Vector2 endScreen2 = mainCamera.WorldToScreenPoint(endWorld);
             
-            startScreen.y = Screen.height - startScreen.y;
-            endScreen.y = Screen.height - endScreen.y;
+            startScreen2.y = Screen.height - startScreen2.y;
+            endScreen2.y = Screen.height - endScreen2.y;
             
-            DrawLine(startScreen, endScreen, 1f);
+            DrawLine(startScreen2, endScreen2, 1f);
         }
     }
     

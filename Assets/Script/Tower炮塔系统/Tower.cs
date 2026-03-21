@@ -19,6 +19,8 @@ public class Tower : MonoBehaviour
     public string targetTag = "Zombie";
     
     private float attackTimer = 0f;
+    private Collider2D[] hitColliders = new Collider2D[32];
+    private int layerMask;
     
     private void Start()
     {
@@ -27,6 +29,7 @@ public class Tower : MonoBehaviour
             firePoint = transform;
         }
         attackTimer = 0;
+        layerMask = LayerMask.GetMask("Default");
     }
     
     private void Update()
@@ -43,19 +46,19 @@ public class Tower : MonoBehaviour
     
     private GameObject FindNearestTarget()
     {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, attackRange);
+        int count = Physics2D.OverlapCircleNonAlloc(transform.position, attackRange, hitColliders, layerMask);
         GameObject nearestTarget = null;
         float nearestDistance = float.MaxValue;
         
-        foreach (Collider2D collider in hitColliders)
+        for (int i = 0; i < count; i++)
         {
-            if (collider.CompareTag(targetTag))
+            if (hitColliders[i].CompareTag(targetTag))
             {
-                float distance = Vector2.Distance(transform.position, collider.transform.position);
+                float distance = Vector2.Distance(transform.position, hitColliders[i].transform.position);
                 if (distance < nearestDistance)
                 {
                     nearestDistance = distance;
-                    nearestTarget = collider.gameObject;
+                    nearestTarget = hitColliders[i].gameObject;
                 }
             }
         }
