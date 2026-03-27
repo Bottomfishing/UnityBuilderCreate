@@ -115,6 +115,19 @@ public class SkillManager : MonoBehaviour
             }
         }
         
+        if (IsTutorialActive())
+        {
+            if (isSelectingBombTarget)
+            {
+                CancelBombSelection();
+            }
+            if (isSelectingFreezeTarget)
+            {
+                CancelFreezeSelection();
+            }
+            return;
+        }
+        
         if (isSelectingBombTarget)
         {
             if (Input.GetMouseButtonDown(0))
@@ -161,7 +174,7 @@ public class SkillManager : MonoBehaviour
     
     private void OnBombSkillClicked()
     {
-        if (!isBombReady)
+        if (IsTutorialActive() || !isBombReady)
         {
             return;
         }
@@ -176,6 +189,15 @@ public class SkillManager : MonoBehaviour
         isSelectingBombTarget = true;
         UpdateBombSkillUI();
         skillClickProcessed = true;
+    }
+    
+    private bool IsTutorialActive()
+    {
+        if (TutorialManager.instance != null)
+        {
+            return TutorialManager.instance.IsTutorialActive;
+        }
+        return false;
     }
     
     private void PlaceBomb()
@@ -277,7 +299,7 @@ public class SkillManager : MonoBehaviour
     
     private void OnFreezeSkillClicked()
     {
-        if (!isFreezeReady)
+        if (IsTutorialActive() || !isFreezeReady)
         {
             return;
         }

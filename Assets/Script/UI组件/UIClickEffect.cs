@@ -29,7 +29,18 @@ public class UIClickEffect : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         CreateRings();
         CreateParticles();
-        Destroy(gameObject, Mathf.Max(ringLifetime, particleLifetime) + 0.1f);
+        StartCoroutine(DestroyAfterDelay(Mathf.Max(ringLifetime, particleLifetime) + 0.1f));
+    }
+    
+    private System.Collections.IEnumerator DestroyAfterDelay(float delay)
+    {
+        float timer = 0f;
+        while (timer < delay)
+        {
+            timer += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        Destroy(gameObject);
     }
     
     private void CreateRings()
@@ -115,7 +126,7 @@ public class UIClickRing : MonoBehaviour
     {
         if (timer < delay)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             return;
         }
         
@@ -137,7 +148,7 @@ public class UIClickRing : MonoBehaviour
             Destroy(gameObject);
         }
         
-        timer += Time.deltaTime;
+        timer += Time.unscaledDeltaTime;
     }
 }
 
@@ -161,9 +172,9 @@ public class UIClickParticle : MonoBehaviour
     
     private void Update()
     {
-        timer += Time.deltaTime;
+        timer += Time.unscaledDeltaTime;
         
-        rectTransform.anchoredPosition += velocity * Time.deltaTime;
+        rectTransform.anchoredPosition += velocity * Time.unscaledDeltaTime;
         velocity *= 0.95f;
         
         if (image != null)

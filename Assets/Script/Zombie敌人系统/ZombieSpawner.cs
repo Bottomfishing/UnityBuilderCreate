@@ -36,6 +36,11 @@ public class ZombieSpawner : MonoBehaviour
             Time.timeScale = 1;
         }
 
+        if (TutorialManager.instance != null && TutorialManager.instance.IsTutorialActive)
+        {
+            return;
+        }
+
         if (LevelManager.instance != null)
         {
             LevelManager.instance.StartTimer();
@@ -54,6 +59,11 @@ public class ZombieSpawner : MonoBehaviour
     
     private void Update()
     {
+        if (TutorialManager.instance != null && TutorialManager.instance.IsTutorialActive)
+        {
+            return;
+        }
+        
         if (isWaitingForNextWave)
         {
             waveDelayTimer += Time.deltaTime;
@@ -86,7 +96,7 @@ public class ZombieSpawner : MonoBehaviour
         return 2f;
     }
     
-    private void StartWave()
+    public void StartWave()
     {
         if (waves == null || currentWave >= waves.Length)
         {

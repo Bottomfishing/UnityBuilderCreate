@@ -30,7 +30,6 @@ public class NavigationManager : MonoBehaviour
     {
         if (navButtons == null || navButtons.Length == 0)
         {
-            Debug.LogWarning("NavigationManager: 请配置导航按钮！");
             return;
         }
 

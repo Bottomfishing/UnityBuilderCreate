@@ -221,7 +221,6 @@ private List<Vector3> RetracePath(PathNode[,] nodeGrid, PathNode startNode, Path
     {
         if (spawnPoint == null || endPoint == null)
         {
-            Debug.LogWarning("spawnPoint 或 endPoint 未找到，默认允许放置");
             return true;
         }
         

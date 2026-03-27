@@ -51,7 +51,6 @@ public class TowerUnlockManager : MonoBehaviour
                 {
                     unlockedTowers.Add(tower.towerName);
                     needsSave = true;
-                    Debug.Log("默认解锁炮塔: " + tower.towerName);
                 }
             }
         }

@@ -329,7 +329,6 @@ public class TowerUpgradeUI : MonoBehaviour
                 
                 if (!TowerUnlockManager.instance.IsTowerUnlocked(upgradedTowerData.towerName))
                 {
-                    Debug.LogWarning("升级后的炮塔未解锁！请先在商店解锁。");
                     HideUI();
                     return;
                 }

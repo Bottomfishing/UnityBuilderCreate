@@ -41,7 +41,6 @@ public class EnergyNotEnoughPanel : MonoBehaviour
     private void OnWatchAdButtonClick()
     {
         // 这里可以添加广告逻辑
-        Debug.Log("观看广告恢复体力！");
         
         // 恢复体力（示例）
         if (ResourceManager.instance != null)

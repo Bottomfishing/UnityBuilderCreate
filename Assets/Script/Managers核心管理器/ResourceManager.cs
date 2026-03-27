@@ -65,20 +65,17 @@ public class ResourceManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F1))
         {
             AddCoins(1000);
-            Debug.Log("获得 1000 金币！");
         }
         
         if (Input.GetKeyDown(KeyCode.F2))
         {
             AddDiamonds(100);
-            Debug.Log("获得 100 钻石！");
         }
         
         if (Input.GetKeyDown(KeyCode.F3))
         {
             playerData.energy = playerData.maxEnergy;
             SaveData();
-            Debug.Log("体力已回满！");
         }
         
         if (Input.GetKeyDown(KeyCode.F4))
@@ -87,13 +84,11 @@ public class ResourceManager : MonoBehaviour
             AddDiamonds(1000);
             playerData.energy = playerData.maxEnergy;
             SaveData();
-            Debug.Log("获得所有资源！");
         }
         
         if (Input.GetKeyDown(KeyCode.F5))
         {
             ResetData();
-            Debug.Log("数据已重置！");
         }
     }
     

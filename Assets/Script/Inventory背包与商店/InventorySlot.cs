@@ -145,6 +145,5 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     private void OnSlotClicked()
     {
-        Debug.Log($"点击了物品: {_currentItem.itemName}");
     }
 }

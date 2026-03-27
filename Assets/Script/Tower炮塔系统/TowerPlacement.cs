@@ -62,6 +62,15 @@ public class TowerPlacement : MonoBehaviour
 
     void LateUpdate()
     {
+        if (IsTutorialActive())
+        {
+            if (isUIShowing)
+            {
+                CloseTowerSelectionUI();
+            }
+            return;
+        }
+        
         if (IsSkillActive())
         {
             if (isUIShowing)
@@ -90,6 +99,15 @@ public class TowerPlacement : MonoBehaviour
                 ShowTowerSelectionUI();
             }
         }
+    }
+    
+    private bool IsTutorialActive()
+    {
+        if (TutorialManager.instance != null)
+        {
+            return TutorialManager.instance.IsTutorialActive;
+        }
+        return false;
     }
     
     private bool IsSkillActive()
@@ -290,7 +308,6 @@ public class TowerPlacement : MonoBehaviour
 
         if (towerData == null || towerData.towerPrefab == null)
         {
-            Debug.LogWarning("TowerData or towerPrefab is null!");
             return;
         }
 
@@ -390,7 +407,6 @@ public class TowerPlacement : MonoBehaviour
             // 检查放置炮塔后是否还有路径
             if (pathfinding != null && !pathfinding.CanPlaceTowerAt(selectedGridPos.x, selectedGridPos.y))
             {
-                Debug.Log("放置炮塔会堵死路径，取消放置！");
                 // 退还金币
                 GameManager.Instance.AddMoney(towerData.cost);
                 CloseTowerSelectionUI();

@@ -16,13 +16,22 @@ public class TowerClickHandler : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (IsGamePaused() || TowerUpgradeUI.IsUpgradeUIShowing)
+            if (IsTutorialActive() || IsGamePaused() || TowerUpgradeUI.IsUpgradeUIShowing)
             {
                 return;
             }
             
             CheckTowerClick();
         }
+    }
+    
+    private bool IsTutorialActive()
+    {
+        if (TutorialManager.instance != null)
+        {
+            return TutorialManager.instance.IsTutorialActive;
+        }
+        return false;
     }
     
     private bool IsGamePaused()

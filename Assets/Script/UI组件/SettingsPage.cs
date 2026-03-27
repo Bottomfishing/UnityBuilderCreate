@@ -12,10 +12,31 @@ public class SettingsPage : MonoBehaviour
     public Text masterVolumeText;
     public Text musicVolumeText;
     public Text sfxVolumeText;
+    
+    [Header("教学设置")]
+    public Toggle alwaysShowTutorialToggle;
+
+    private const string AlwaysShowTutorialKey = "AlwaysShowTutorial";
 
     private void Start()
     {
         InitializeSliders();
+        InitializeTutorialToggle();
+    }
+
+    private void InitializeTutorialToggle()
+    {
+        if (alwaysShowTutorialToggle != null)
+        {
+            alwaysShowTutorialToggle.isOn = PlayerPrefs.GetInt(AlwaysShowTutorialKey, 0) == 1;
+            alwaysShowTutorialToggle.onValueChanged.AddListener(OnAlwaysShowTutorialChanged);
+        }
+    }
+
+    private void OnAlwaysShowTutorialChanged(bool isOn)
+    {
+        PlayerPrefs.SetInt(AlwaysShowTutorialKey, isOn ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
     private void InitializeSliders()

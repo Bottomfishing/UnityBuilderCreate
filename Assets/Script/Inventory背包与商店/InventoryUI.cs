@@ -39,8 +39,6 @@ public class InventoryUI : MonoBehaviour
 
     private void InitializeSlots()
     {
-        Debug.Log($"初始化槽位 - SlotContainer: {slotContainer != null}, SlotPrefab: {slotPrefab != null}");
-        
         if (slotContainer == null || slotPrefab == null)
         {
             Debug.LogError("SlotContainer 或 SlotPrefab 未设置！");
@@ -56,11 +54,8 @@ public class InventoryUI : MonoBehaviour
             }
         }
 
-        Debug.Log($"找到已有槽位数量: {_slots.Count}");
-
         if (_slots.Count == 0 && InventoryManager.instance != null)
         {
-            Debug.Log($"开始生成槽位，总数: {InventoryManager.instance.inventorySize}");
             for (int i = 0; i < InventoryManager.instance.inventorySize; i++)
             {
                 GameObject slotObj = Instantiate(slotPrefab, slotContainer);
@@ -70,17 +65,13 @@ public class InventoryUI : MonoBehaviour
                     _slots.Add(slot);
                 }
             }
-            Debug.Log($"生成后槽位总数: {_slots.Count}");
         }
     }
 
     public void RefreshInventory()
     {
-        Debug.Log($"刷新背包 - Slot数量: {_slots.Count}, ResourceManager: {ResourceManager.instance != null}, CoinIcon: {coinIcon != null}");
-        
         if (ResourceManager.instance == null)
         {
-            Debug.LogWarning("ResourceManager 不存在！");
             return;
         }
 
@@ -97,7 +88,6 @@ public class InventoryUI : MonoBehaviour
                 "游戏货币"
             );
             _slots[0].SetItem(coinItem);
-            Debug.Log($"设置金币: {ResourceManager.instance.GetCoins()}");
         }
 
         if (_slots.Count > 1)
@@ -113,7 +103,6 @@ public class InventoryUI : MonoBehaviour
                 "珍贵货币"
             );
             _slots[1].SetItem(diamondItem);
-            Debug.Log($"设置钻石: {ResourceManager.instance.GetDiamonds()}");
         }
 
         if (_slots.Count > 2)
@@ -129,7 +118,6 @@ public class InventoryUI : MonoBehaviour
                 "用于挑战关卡"
             );
             _slots[2].SetItem(energyItem);
-            Debug.Log($"设置体力: {ResourceManager.instance.GetEnergy()}");
         }
 
         if (InventoryManager.instance == null) return;

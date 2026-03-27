@@ -57,13 +57,11 @@ public class AudioManager : MonoBehaviour
         }
 
         LoadVolumeSettings();
-        Debug.Log("AudioManager 初始化完成");
     }
 
     public void SetMasterVolume(float volume)
     {
         currentMasterVolume = Mathf.Clamp01(volume);
-        Debug.Log("设置主音量：" + currentMasterVolume);
         
         // 直接设置 AudioListener.volume
         AudioListener.volume = currentMasterVolume;
@@ -74,7 +72,6 @@ public class AudioManager : MonoBehaviour
     public void SetMusicVolume(float volume)
     {
         currentMusicVolume = Mathf.Clamp01(volume);
-        Debug.Log("设置音乐音量：" + currentMusicVolume);
         
         // 更新音乐源音量
         if (musicSource != null)
@@ -88,7 +85,6 @@ public class AudioManager : MonoBehaviour
     public void SetSFXVolume(float volume)
     {
         currentSFXVolume = Mathf.Clamp01(volume);
-        Debug.Log("设置音效音量：" + currentSFXVolume);
         
         // 更新音效源音量
         if (sfxSource != null)

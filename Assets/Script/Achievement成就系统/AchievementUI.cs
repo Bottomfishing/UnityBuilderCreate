@@ -26,8 +26,6 @@ public class AchievementUI : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("AchievementUI Start");
-        
         if (AchievementManager.instance != null)
         {
             AchievementManager.instance.OnAchievementCompleted += OnAchievementCompleted;
@@ -48,7 +46,6 @@ public class AchievementUI : MonoBehaviour
 
     public void Show()
     {
-        Debug.Log("显示成就面板");
         gameObject.SetActive(true);
         RefreshAchievements();
     }
@@ -64,22 +61,18 @@ public class AchievementUI : MonoBehaviour
 
         if (AchievementManager.instance == null)
         {
-            Debug.LogWarning("AchievementManager.instance 为空！");
             return;
         }
 
         List<AchievementData> achievements = AchievementManager.instance.GetAllAchievements();
-        Debug.Log("成就数量：" + achievements.Count);
 
         if (achievementItemPrefab == null)
         {
-            Debug.LogWarning("成就预制体为空！请设置 Achievement Item Prefab");
             return;
         }
 
         if (content == null)
         {
-            Debug.LogWarning("Content 为空！请设置 Content");
             return;
         }
 

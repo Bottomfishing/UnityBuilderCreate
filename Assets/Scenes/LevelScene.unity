@@ -532,14 +532,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 388304980}
     m_Modifications:
     - target: {fileID: 7778746913632909529, guid: 73ea2cb8510f0224bb77a3976b6c8817, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 7778746913632909529, guid: 73ea2cb8510f0224bb77a3976b6c8817, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 7778746913632909529, guid: 73ea2cb8510f0224bb77a3976b6c8817, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.03
       objectReference: {fileID: 0}
@@ -581,7 +573,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7920529382964365993, guid: 73ea2cb8510f0224bb77a3976b6c8817, type: 3}
       propertyPath: m_Name
-      value: StartPoint
+      value: SpawnPoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3934,6 +3926,122 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1069659226}
   m_CullTransparentMesh: 1
+--- !u!1 &1092669559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1092669561}
+  - component: {fileID: 1092669560}
+  m_Layer: 0
+  m_Name: TutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1092669560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092669559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6cf76a5db11433408a0cd7dcf41886d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialSteps:
+  - message: "\u8FD9\u662F\u50F5\u5C38\u751F\u6210\u7684\u5730\u65B9"
+    pointerPosition: {x: 0, y: 0}
+    showPointer: 1
+    delay: 0
+    highlightType: 1
+    pointerOffsetOverride: {x: 0, y: 0}
+    pointerScaleOverride: 1
+    pointerRotationOverride: 0
+    pointerRotateSpeedOverride: 0
+  - message: "\u8FD9\u662F\u50F5\u5C38\u5230\u8FBE\u7EC8\u70B9\u7684\u5730\u65B9"
+    pointerPosition: {x: 0, y: 0}
+    showPointer: 1
+    delay: 0
+    highlightType: 2
+    pointerOffsetOverride: {x: 0, y: 0}
+    pointerScaleOverride: 1
+    pointerRotationOverride: 0
+    pointerRotateSpeedOverride: 0
+  - message: "\u70B9\u51FB\u8FD9\u91CC\u53EF\u4EE5\u6682\u505C\u6E38\u620F\u548C\u5FEB\u901F\u52A0\u901F\u6E38\u620F"
+    pointerPosition: {x: -280, y: 960}
+    showPointer: 1
+    delay: 0
+    highlightType: 0
+    pointerOffsetOverride: {x: 0, y: 0}
+    pointerScaleOverride: 1
+    pointerRotationOverride: 0
+    pointerRotateSpeedOverride: 0
+  - message: "\u8FD9\u91CC\u4F1A\u663E\u793A\u73A9\u5BB6\u7684\u91D1\u94B1\u548C\u751F\u547D\u503C\u4FE1\u606F"
+    pointerPosition: {x: -260, y: 620}
+    showPointer: 1
+    delay: 0
+    highlightType: 0
+    pointerOffsetOverride: {x: 0, y: 0}
+    pointerScaleOverride: 1
+    pointerRotationOverride: 180
+    pointerRotateSpeedOverride: 0
+  - message: "\u8FD9\u91CC\u4F1A\u663E\u793A\u6E38\u620F\u6CE2\u6570"
+    pointerPosition: {x: 270, y: 790}
+    showPointer: 1
+    delay: 0
+    highlightType: 0
+    pointerOffsetOverride: {x: 0, y: 0}
+    pointerScaleOverride: 1
+    pointerRotationOverride: 180
+    pointerRotateSpeedOverride: 0
+  - message: "\u8FD9\u91CC\u53EF\u4EE5\u9009\u62E9\u5F3A\u529B\u6E38\u620F\u6280\u80FD"
+    pointerPosition: {x: -340, y: -1000}
+    showPointer: 1
+    delay: 0
+    highlightType: 0
+    pointerOffsetOverride: {x: 0, y: 0}
+    pointerScaleOverride: 1
+    pointerRotationOverride: 0
+    pointerRotateSpeedOverride: 0
+  - message: "\u70B9\u51FB\u5730\u9762\u53EF\u4EE5\u653E\u7F6E\u70AE\u5854\u6765\u8BBE\u8BA1\u8DEF\u7EBF\uFF0C\u5728\u50F5\u5C38\u5230\u8FBE\u76EE\u7684\u5730\u4E4B\u524D\u51FB\u6740\u50F5\u5C38\uFF0C\u518D\u6B21\u70B9\u51FB\u70AE\u5854\u53EF\u4EE5\u5347\u7EA7\uFF0C\u4F46\u662F\u9700\u8981\u5728\u6E38\u620F\u9996\u9875\u5546\u5E97\u4E2D\u8D2D\u4E70\u624D\u53EF\u4F7F\u7528"
+    pointerPosition: {x: 0, y: 500}
+    showPointer: 1
+    delay: 0
+    highlightType: 0
+    pointerOffsetOverride: {x: 0, y: 0}
+    pointerScaleOverride: 1
+    pointerRotationOverride: 0
+    pointerRotateSpeedOverride: 0
+  tutorialCompletedKey: TutorialCompleted
+  forceShowTutorial: 0
+  tutorialUIPrefab: {fileID: 8489072185960850063, guid: d6e464aac23833f47a1b13b329f706fd, type: 3}
+  pointerPrefab: {fileID: 5735953997392614189, guid: 0e87149588402ef479e28409d2777c51, type: 3}
+  pointerOffset: {x: 0, y: 100}
+  pointerScale: 1
+  pointerRotation: 0
+  pointerRotateSpeed: 0
+--- !u!4 &1092669561
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092669559}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1106146748
 GameObject:
   m_ObjectHideFlags: 0
@@ -6617,3 +6725,4 @@ SceneRoots:
   - {fileID: 306169355}
   - {fileID: 1347582909}
   - {fileID: 267239292}
+  - {fileID: 1092669561}
