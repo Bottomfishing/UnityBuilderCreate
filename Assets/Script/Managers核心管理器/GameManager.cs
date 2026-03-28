@@ -5,11 +5,9 @@ using System.Collections;
 public class GameManager : MonoBehaviour
 {
     [Header("金钱设置")]
-    public int startingMoney = 1000;
     public int currentMoney;
     
     [Header("生命值设置")]
-    public int startingLives = 10;
     public int currentLives;
     public int lowLivesThreshold = 3;
     
@@ -46,10 +44,23 @@ public class GameManager : MonoBehaviour
             return;
         }
         
-        currentMoney = startingMoney;
-        currentLives = startingLives;
+        InitializeFromLevelData();
         UpdateMoneyText();
         UpdateLivesText();
+    }
+    
+    private void InitializeFromLevelData()
+    {
+        if (LevelDataContainer.selectedLevelData != null)
+        {
+            currentMoney = LevelDataContainer.selectedLevelData.startingMoney;
+            currentLives = LevelDataContainer.selectedLevelData.startingLives;
+        }
+        else
+        {
+            currentMoney = 1000;
+            currentLives = 10;
+        }
     }
     
     public void AddMoney(int amount)
@@ -267,8 +278,7 @@ public class GameManager : MonoBehaviour
     
     public void ResetGameManager()
     {
-        currentMoney = startingMoney;
-        currentLives = startingLives;
+        InitializeFromLevelData();
         UpdateMoneyText();
         UpdateLivesText();
     }

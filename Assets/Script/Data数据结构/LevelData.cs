@@ -9,6 +9,10 @@ public class LevelData
     public Sprite backgroundImage;
     public bool isUnlocked = true;
     
+    [Header("关卡设置")]
+    public int startingMoney = 1000;
+    public int startingLives = 10;
+    
     [Header("波数配置")]
     public WaveData[] waves;
     

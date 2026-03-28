@@ -6,10 +6,12 @@ public class ZombieSpawner : MonoBehaviour
     [Header("波数设置")]
     public int currentWave = 0;
     public Text waveText;
-    public float waveDelay = 3f;
     
     [Header("基础设置")]
     public GameObject spawnPoint;
+    
+    [Header("WaveStarter集成")]
+    public WaveStarterManager waveStarterManager;
     
     private WaveData[] waves;
     
@@ -23,8 +25,7 @@ public class ZombieSpawner : MonoBehaviour
     private int currentZombieTypeIndex = 0;
     private int[] remainingZombies;
     private bool isSpawning = false;
-    private bool isWaitingForNextWave = false;
-    private float waveDelayTimer = 0f;
+    private bool allowStartWave = false;  // 只有WaveStarterManager能设置这个为true
     
     private void Start()
     {
@@ -46,7 +47,14 @@ public class ZombieSpawner : MonoBehaviour
             LevelManager.instance.StartTimer();
         }
 
-        StartWave();
+        if (waveStarterManager != null)
+        {
+            waveStarterManager.StartGame();
+        }
+        else
+        {
+            SafeStartWave();
+        }
     }
 
     private void LoadLevelData()
@@ -61,17 +69,6 @@ public class ZombieSpawner : MonoBehaviour
     {
         if (TutorialManager.instance != null && TutorialManager.instance.IsTutorialActive)
         {
-            return;
-        }
-        
-        if (isWaitingForNextWave)
-        {
-            waveDelayTimer += Time.deltaTime;
-            if (waveDelayTimer >= waveDelay)
-            {
-                isWaitingForNextWave = false;
-                StartWave();
-            }
             return;
         }
         
@@ -98,6 +95,13 @@ public class ZombieSpawner : MonoBehaviour
     
     public void StartWave()
     {
+        if (!allowStartWave)
+        {
+            return;
+        }
+        
+        allowStartWave = false;
+        
         if (waves == null || currentWave >= waves.Length)
         {
             return;
@@ -134,6 +138,12 @@ public class ZombieSpawner : MonoBehaviour
         {
             LevelManager.instance.ResetWave(totalWaveZombies);
         }
+    }
+    
+    public void SafeStartWave()
+    {
+        allowStartWave = true;
+        StartWave();
     }
     
     private int CalculateTotalWaveZombies(WaveData wave)
@@ -306,8 +316,10 @@ public class ZombieSpawner : MonoBehaviour
             return;
         }
         
-        isWaitingForNextWave = true;
-        waveDelayTimer = 0f;
+        if (waveStarterManager != null)
+        {
+            waveStarterManager.OnCurrentWaveComplete();
+        }
     }
     
     public void ResetSpawner()
@@ -318,10 +330,7 @@ public class ZombieSpawner : MonoBehaviour
         currentZombieTypeIndex = 0;
         remainingZombies = null;
         isSpawning = false;
-        isWaitingForNextWave = false;
-        waveDelayTimer = 0f;
         timer = 0;
         UpdateWaveText();
-        StartWave();
     }
 }
