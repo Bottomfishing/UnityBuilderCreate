@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class TutorialPointer : MonoBehaviour
 {
     [Header("动画设置")]
-    public float bounceHeight = 0.3f;
+    public float bounceHeight = 30f;
     public float bounceSpeed = 2f;
     public float rotateSpeed = 0f;
     
@@ -12,20 +12,32 @@ public class TutorialPointer : MonoBehaviour
     public Image pointerImage;
     public Color highlightColor = Color.yellow;
     
-    private Vector3 originalPosition;
+    private Vector2 originalAnchoredPosition;
     private float timeElapsed;
+    private RectTransform rectTransform;
+    
+    private void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+    }
     
     private void Start()
     {
-        originalPosition = transform.position;
+        if (rectTransform != null)
+        {
+            originalAnchoredPosition = rectTransform.anchoredPosition;
+        }
     }
     
     private void Update()
     {
         timeElapsed += Time.unscaledDeltaTime;
         
-        float bounce = Mathf.Sin(timeElapsed * bounceSpeed) * bounceHeight;
-        transform.position = originalPosition + Vector3.up * bounce;
+        if (rectTransform != null)
+        {
+            float bounce = Mathf.Sin(timeElapsed * bounceSpeed) * bounceHeight;
+            rectTransform.anchoredPosition = originalAnchoredPosition + Vector2.up * bounce;
+        }
         
         if (rotateSpeed > 0)
         {
@@ -33,10 +45,18 @@ public class TutorialPointer : MonoBehaviour
         }
     }
     
-    public void SetPosition(Vector3 position)
+    public void SetAnchoredPosition(Vector2 position)
     {
-        transform.position = position;
-        originalPosition = position;
+        if (rectTransform == null)
+        {
+            rectTransform = GetComponent<RectTransform>();
+        }
+        
+        if (rectTransform != null)
+        {
+            rectTransform.anchoredPosition = position;
+            originalAnchoredPosition = position;
+        }
     }
     
     public void SetActive(bool active)

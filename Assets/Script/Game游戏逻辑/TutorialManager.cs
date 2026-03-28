@@ -477,17 +477,13 @@ public class TutorialManager : MonoBehaviour
                 currentRotateSpeed = step.pointerRotateSpeedOverride;
             }
             
-            Vector3 pointerPos = GetPointerPosition(step);
-            Vector2 finalPos = new Vector2(pointerPos.x + currentOffset.x, pointerPos.y + currentOffset.y);
+            Vector2 pointerPos = GetPointerPosition(step);
+            Vector2 finalPos = pointerPos + currentOffset;
             
             RectTransform rectTransform = pointerInstance.GetComponent<RectTransform>();
             if (rectTransform != null)
             {
                 rectTransform.anchoredPosition = finalPos;
-            }
-            else
-            {
-                pointerInstance.transform.position = new Vector3(finalPos.x, finalPos.y, pointerPos.z);
             }
             
             pointerInstance.transform.localEulerAngles = new Vector3(0, 0, currentRotation);
@@ -495,7 +491,7 @@ public class TutorialManager : MonoBehaviour
             TutorialPointer pointerScript = pointerInstance.GetComponent<TutorialPointer>();
             if (pointerScript != null)
             {
-                pointerScript.SetPosition(pointerInstance.transform.position);
+                pointerScript.SetAnchoredPosition(finalPos);
                 pointerScript.rotateSpeed = currentRotateSpeed;
             }
             
@@ -507,17 +503,17 @@ public class TutorialManager : MonoBehaviour
         }
     }
     
-    private Vector3 GetPointerPosition(TutorialStep step)
+    private Vector2 GetPointerPosition(TutorialStep step)
     {
         if (step.pointerPosition != Vector2.zero)
         {
-            return new Vector3(step.pointerPosition.x, step.pointerPosition.y, 0f);
+            return step.pointerPosition;
         }
         
         return GetHighlightPosition(step.highlightType);
     }
     
-    private Vector3 GetHighlightPosition(TutorialHighlightType type)
+    private Vector2 GetHighlightPosition(TutorialHighlightType type)
     {
         GameObject target = null;
         
@@ -542,29 +538,48 @@ public class TutorialManager : MonoBehaviour
         
         if (target != null)
         {
-            Vector3 finalPos = ConvertToUIPosition(target);
+            Vector2 finalPos = ConvertToUIPosition(target);
             return finalPos;
         }
         
-        return Vector3.zero;
+        return Vector2.zero;
     }
     
-    private Vector3 ConvertToUIPosition(GameObject target)
+    private Vector2 ConvertToUIPosition(GameObject target)
     {
         Canvas canvas = FindCanvas()?.GetComponent<Canvas>();
         Camera mainCamera = Camera.main;
         
-        if (canvas == null || mainCamera == null)
+        if (canvas == null)
         {
-            return target.transform.position;
+            RectTransform targetRect = target.GetComponent<RectTransform>();
+            if (targetRect != null)
+            {
+                return targetRect.anchoredPosition;
+            }
+            return Vector2.zero;
         }
         
-        Vector3 worldPos = target.transform.position;
-        Vector3 screenPos = mainCamera.WorldToScreenPoint(worldPos);
-        
         RectTransform canvasRect = canvas.GetComponent<RectTransform>();
-        Vector2 localPoint;
+        RectTransform targetRectTransform = target.GetComponent<RectTransform>();
         
+        if (targetRectTransform != null)
+        {
+            Vector2 worldPos;
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvasRect,
+                targetRectTransform.position,
+                canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera,
+                out worldPos))
+            {
+                return worldPos;
+            }
+        }
+        
+        Vector3 targetWorldPos = target.transform.position;
+        Vector3 screenPos = mainCamera != null ? mainCamera.WorldToScreenPoint(targetWorldPos) : targetWorldPos;
+        
+        Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvasRect,
             screenPos,
