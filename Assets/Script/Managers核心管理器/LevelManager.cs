@@ -89,7 +89,7 @@ public class LevelManager : MonoBehaviour
             {
                 shouldCheckForWin = false;
 
-                if (cachedSpawner != null && cachedSpawner.currentWave + 1 < cachedSpawner.TotalWaves)
+                if (cachedSpawner != null && cachedSpawner.currentWave + 1 <= cachedSpawner.TotalWaves)
                 {
                     cachedSpawner.OnWaveComplete();
                 }
@@ -690,6 +690,13 @@ public class LevelManager : MonoBehaviour
         if (zombieSpawner != null)
         {
             zombieSpawner.ResetSpawner();
+        }
+        
+        // 重置波次启动管理器
+        WaveStarterManager waveStarterManager = FindObjectOfType<WaveStarterManager>();
+        if (waveStarterManager != null)
+        {
+            waveStarterManager.ResetManager();
         }
 
         if (winText != null)

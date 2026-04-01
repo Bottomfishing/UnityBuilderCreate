@@ -1145,7 +1145,20 @@ MonoBehaviour:
   currentWave: 1
   waveText: {fileID: 403727540}
   spawnPoint: {fileID: 889478780}
-  waveStarterManager: {fileID: 1559821217}
+  waveStarterUI: {fileID: 1628542789}
+  waveStarterSettings:
+    waveWaitTime: 10
+    showEarlyButtonTime: 5
+    earlyStartRewards:
+    - timeThreshold: 10
+      bonusGold: 50
+    - timeThreshold: 5
+      bonusGold: 30
+    - timeThreshold: 2
+      bonusGold: 15
+    - timeThreshold: 0
+      bonusGold: 5
+    showBonusHint: 1
 --- !u!1 &358205083
 GameObject:
   m_ObjectHideFlags: 0
@@ -3193,12 +3206,12 @@ RectTransform:
   - {fileID: 234180794}
   - {fileID: 1196795817}
   - {fileID: 403727538}
+  - {fileID: 1575338859}
   - {fileID: 2133201852}
   - {fileID: 454622164}
   - {fileID: 697133422}
   - {fileID: 100867166}
   - {fileID: 750059643}
-  - {fileID: 1575338859}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5544,7 +5557,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1559821216}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82c24d83289a0ef43b954044adbdb506, type: 3}
   m_Name: 
@@ -5668,6 +5681,17 @@ RectTransform:
   m_AnchoredPosition: {x: 16.269, y: 0.25}
   m_SizeDelta: {x: 96.009, y: 38.26}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1628542789 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5139244605861501738, guid: 90c4e6e71e1270a4483e9639cec874f5, type: 3}
+  m_PrefabInstance: {fileID: 863578054}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1377c0eb27a780e48bac1c979b9bbf7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1660206470
 GameObject:
   m_ObjectHideFlags: 0

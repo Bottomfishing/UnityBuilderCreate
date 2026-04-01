@@ -1,176 +1,119 @@
 using UnityEngine;
 
+/// <summary>
+/// WaveStarterManager — 已简化
+/// 
+/// 当前架构：
+/// - ZombieSpawner 直接持有 WaveStarterUI，不再走这里
+/// - 这个脚本可以保留备用（如需要全局波次管理），暂时不再被调用
+/// - 如果不需要，可以从场景里删除这个组件
+/// </summary>
 public class WaveStarterManager : MonoBehaviour
 {
-    [Header("设置")]
+    [Header("Settings")]
     public WaveStarterSettings settings;
     
-    [Header("UI引用")]
+    [Header("References")]
     public WaveStarterUI waveStarterUI;
-    
-    [Header("引用")]
     public ZombieSpawner zombieSpawner;
     
     private bool isGameStarted = false;
-    private float currentWaitTime = 0f;
-    private bool isWaitingForWave = false;
-    private int nextWaveNumber = 0;
+    private int nextWaveNumber = 1;
     
     private void Awake()
     {
         if (settings == null)
-        {
             settings = new WaveStarterSettings();
-        }
         
-        if (waveStarterUI != null)
-        {
-            waveStarterUI.Initialize(settings);
-            waveStarterUI.OnEarlyStart += OnEarlyStartClicked;
-        }
+        if (waveStarterUI == null)
+            waveStarterUI = GetComponent<WaveStarterUI>();
     }
     
     private void Start()
     {
-        if (zombieSpawner == null)
+        TryInitializeUI();
+        
+        if (zombieSpawner != null)
         {
-            zombieSpawner = FindObjectOfType<ZombieSpawner>();
+            // 指向 ZombieSpawner，但 ZombieSpawner 不再指向这里
+            // 这是单向引用，没问题
+        }
+    }
+    
+    private void TryInitializeUI()
+    {
+        if (waveStarterUI == null)
+        {
+            waveStarterUI = GetComponent<WaveStarterUI>();
+            if (waveStarterUI == null)
+            {
+                WaveStarterUI[] all = FindObjectsOfType<WaveStarterUI>(true);
+                if (all.Length > 0) waveStarterUI = all[0];
+            }
+        }
+        
+        if (waveStarterUI != null)
+        {
+            waveStarterUI.DoInitialize();
+            waveStarterUI.Initialize(settings);
+            waveStarterUI.OnEarlyStart -= HandleEarlyStart;
+            waveStarterUI.OnEarlyStart += HandleEarlyStart;
+            waveStarterUI.OnCountdownComplete -= HandleCountdownComplete;
+            waveStarterUI.OnCountdownComplete += HandleCountdownComplete;
+            Debug.Log("[WS-Mgr] UI wired up");
+        }
+        else
+        {
+            Debug.LogError("[WS-Mgr] WaveStarterUI NOT FOUND!");
         }
     }
     
     public void StartGame()
     {
-        if (isGameStarted)
-        {
-            return;
-        }
-        
-        if (waveStarterUI == null)
-        {
-            return;
-        }
-        
+        if (isGameStarted) return;
         isGameStarted = true;
         nextWaveNumber = 1;
-        
-        ShowStartFirstWave();
-    }
-    
-    private void ShowStartFirstWave()
-    {
-        if (waveStarterUI != null)
-        {
-            waveStarterUI.ShowStartWave(nextWaveNumber, settings.waveWaitTime);
-        }
-        
-        isWaitingForWave = true;
-        currentWaitTime = settings.waveWaitTime;
+        TryInitializeUI();
+        ShowWaveUI();
     }
     
     public void OnCurrentWaveStarted()
     {
-        if (waveStarterUI != null)
-        {
-            waveStarterUI.Hide();
-        }
-        
-        isWaitingForWave = false;
+        waveStarterUI?.Hide();
     }
     
     public void OnCurrentWaveComplete()
     {
+        if (!isGameStarted) return;
         nextWaveNumber++;
-        
-        if (nextWaveNumber > zombieSpawner.TotalWaves)
-        {
-            return;
-        }
-        
-        ShowEarlyStartButton();
+        TryInitializeUI();
+        ShowWaveUI();
     }
     
-    private void ShowEarlyStartButton()
+    private void ShowWaveUI()
     {
         if (waveStarterUI != null)
-        {
-            waveStarterUI.ShowEarlyStart(nextWaveNumber, settings.waveWaitTime, settings.waveWaitTime);
-        }
-        
-        isWaitingForWave = true;
-        currentWaitTime = settings.waveWaitTime;
+            waveStarterUI.ShowStartWave(nextWaveNumber, settings.waveWaitTime);
+        else
+            Debug.LogError("[WS-Mgr] No WaveStarterUI!");
     }
     
-    private void Update()
+    private void HandleCountdownComplete()
     {
-        if (!isWaitingForWave)
-        {
-            return;
-        }
-        
-        currentWaitTime -= Time.deltaTime;
-        
-        if (currentWaitTime <= 0f)
-        {
-            AutoStartNextWave();
-        }
+        waveStarterUI?.ForceComplete();
+        // 不自动开始，由外部控制
     }
     
-    private void AutoStartNextWave()
+    private void HandleEarlyStart()
     {
-        isWaitingForWave = false;
-        
-        if (waveStarterUI != null)
-        {
-            waveStarterUI.ForceComplete();
-        }
-        
-        StartNextWave();
-        
-        if (zombieSpawner != null)
-        {
-            OnCurrentWaveStarted();
-        }
-    }
-    
-    private void OnEarlyStartClicked()
-    {
-        isWaitingForWave = false;
-        
-        if (waveStarterUI != null)
-        {
-            waveStarterUI.Hide();
-        }
-        
-        StartNextWave();
-        
-        if (zombieSpawner != null)
-        {
-            OnCurrentWaveStarted();
-        }
-    }
-    
-    private void StartNextWave()
-    {
-        if (zombieSpawner != null)
-        {
-            if (!isGameStarted)
-            {
-                isGameStarted = true;
-            }
-            zombieSpawner.SafeStartWave();
-        }
+        waveStarterUI?.Hide();
+        // 不自动开始，由外部控制
     }
     
     public void ResetManager()
     {
         isGameStarted = false;
-        isWaitingForWave = false;
-        currentWaitTime = 0f;
-        nextWaveNumber = 0;
-        
-        if (waveStarterUI != null)
-        {
-            waveStarterUI.Hide();
-        }
+        nextWaveNumber = 1;
+        waveStarterUI?.Hide();
     }
 }

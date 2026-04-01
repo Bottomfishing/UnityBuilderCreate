@@ -3,14 +3,14 @@ using UnityEngine.UI;
 
 public class WaveStarterUI : MonoBehaviour
 {
-    [Header("UI组件")]
+    [Header("UI Components")]
     public Button startButton;
     public Image countdownCircle;
     public Text countdownText;
     public Text bonusText;
     public Text waveNumberText;
     
-    [Header("视觉设置")]
+    [Header("Visual Settings")]
     public Color readyColor = Color.green;
     public Color waitingColor = Color.yellow;
     public Color urgentColor = Color.red;
@@ -20,91 +20,77 @@ public class WaveStarterUI : MonoBehaviour
     private bool isCounting;
     private int currentBonusGold;
     private WaveStarterSettings settings;
+    private bool isInitialized = false;
     
     public System.Action OnEarlyStart;
+    public System.Action OnCountdownComplete;
     
     private void Awake()
     {
-        if (startButton != null)
-        {
-            startButton.onClick.AddListener(OnStartButtonClick);
-        }
+        DoInitialize();
     }
     
-    private void Start()
+    public void DoInitialize()
     {
-        if (countdownCircle != null)
+        if (isInitialized) return;
+        isInitialized = true;
+        
+        if (startButton != null)
         {
-            Button circleButton = countdownCircle.GetComponent<Button>();
-            if (circleButton == null)
-            {
-                circleButton = countdownCircle.gameObject.AddComponent<Button>();
-            }
-            circleButton.onClick.AddListener(OnStartButtonClick);
+            startButton.onClick.RemoveAllListeners();
+            startButton.onClick.AddListener(OnStartButtonClick);
         }
         
-        totalWaitTime = 10f;
-        currentWaitTime = 10f;
-        isCounting = true;
-        
-        if (waveNumberText != null)
+        if (countdownCircle != null)
         {
-            waveNumberText.text = "第 1 波";
+            Button circleBtn = countdownCircle.GetComponent<Button>();
+            if (circleBtn == null)
+                circleBtn = countdownCircle.gameObject.AddComponent<Button>();
+            circleBtn.onClick.RemoveAllListeners();
+            circleBtn.onClick.AddListener(OnStartButtonClick);
         }
     }
     
     public void Initialize(WaveStarterSettings waveSettings)
     {
         settings = waveSettings;
+        Debug.Log($"WaveStarterUI: Initialized with settings, showBonusHint={settings?.showBonusHint}");
     }
     
     public void ShowStartWave(int waveNumber, float waitTime)
     {
+        if (!isInitialized)
+        {
+            gameObject.SetActive(true);
+            if (!isInitialized)
+                DoInitialize();
+        }
+        
         totalWaitTime = waitTime;
         currentWaitTime = waitTime;
         isCounting = true;
         
         if (waveNumberText != null)
-        {
-            waveNumberText.text = $"第 {waveNumber} 波";
-        }
+            waveNumberText.text = "第 " + waveNumber + " 波";
         
-        UpdateBonusDisplay();
         UpdateUI();
-        Show();
-    }
-    
-    public void ShowEarlyStart(int nextWaveNumber, float remainingTime, float totalTime)
-    {
-        totalWaitTime = totalTime;
-        currentWaitTime = remainingTime;
-        isCounting = true;
-        
-        if (waveNumberText != null)
-        {
-            waveNumberText.text = $"第 {nextWaveNumber} 波";
-        }
-        
-        UpdateBonusDisplay();
-        UpdateUI();
-        Show();
+        gameObject.SetActive(true);
     }
     
     private void Update()
     {
-        if (isCounting)
+        if (!isCounting) return;
+        
+        currentWaitTime -= Time.deltaTime;
+        
+        if (currentWaitTime <= 0f)
         {
-            currentWaitTime -= Time.deltaTime;
-            
-            if (currentWaitTime <= 0f)
-            {
-                currentWaitTime = 0f;
-                isCounting = false;
-                Hide();
-            }
-            
-            UpdateUI();
+            currentWaitTime = 0f;
+            isCounting = false;
+            OnCountdownComplete?.Invoke();
         }
+        
+        UpdateUI();
     }
     
     private void UpdateUI()
@@ -113,45 +99,30 @@ public class WaveStarterUI : MonoBehaviour
         {
             float progress = totalWaitTime > 0 ? currentWaitTime / totalWaitTime : 0;
             countdownCircle.fillAmount = progress;
-            
-            if (progress > 0.7f)
-            {
-                countdownCircle.color = readyColor;
-            }
-            else if (progress > 0.3f)
-            {
-                countdownCircle.color = waitingColor;
-            }
-            else
-            {
-                countdownCircle.color = urgentColor;
-            }
+            countdownCircle.color = progress > 0.5f ? readyColor
+                : (progress > 0.2f ? waitingColor : urgentColor);
         }
         
         if (countdownText != null)
-        {
             countdownText.text = Mathf.CeilToInt(currentWaitTime).ToString();
-        }
         
         UpdateBonusDisplay();
     }
     
     private void UpdateBonusDisplay()
     {
-        if (settings == null || bonusText == null || !settings.showBonusHint)
+        currentBonusGold = CalculateBonusGold();
+        
+        if (settings == null || !settings.showBonusHint || bonusText == null)
         {
             if (bonusText != null)
-            {
                 bonusText.gameObject.SetActive(false);
-            }
             return;
         }
         
-        currentBonusGold = CalculateBonusGold();
-        
         if (currentBonusGold > 0)
         {
-            bonusText.text = $"+{currentBonusGold}";
+            bonusText.text = "+" + currentBonusGold;
             bonusText.gameObject.SetActive(true);
         }
         else
@@ -163,16 +134,12 @@ public class WaveStarterUI : MonoBehaviour
     private int CalculateBonusGold()
     {
         if (settings == null || settings.earlyStartRewards == null)
-        {
             return 0;
-        }
         
         foreach (EarlyStartReward reward in settings.earlyStartRewards)
         {
             if (currentWaitTime >= reward.timeThreshold)
-            {
                 return reward.bonusGold;
-            }
         }
         
         return 0;
@@ -180,24 +147,22 @@ public class WaveStarterUI : MonoBehaviour
     
     private void OnStartButtonClick()
     {
-        if (!isCounting)
-        {
-            return;
-        }
+        if (!isCounting) return;
         
         isCounting = false;
         
         if (currentBonusGold > 0 && GameManager.Instance != null)
         {
             GameManager.Instance.AddMoney(currentBonusGold);
+            Debug.Log($"WaveStarterUI: Added {currentBonusGold} gold bonus to player");
+        }
+        else if (currentBonusGold > 0 && GameManager.Instance == null)
+        {
+            Debug.LogWarning("WaveStarterUI: GameManager.Instance is null, cannot add bonus gold!");
         }
         
         Hide();
-        
-        if (OnEarlyStart != null)
-        {
-            OnEarlyStart.Invoke();
-        }
+        OnEarlyStart?.Invoke();
     }
     
     public void Hide()

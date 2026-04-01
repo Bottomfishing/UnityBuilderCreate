@@ -3,141 +3,134 @@ using UnityEngine.UI;
 
 public class ZombieSpawner : MonoBehaviour
 {
-    [Header("波数设置")]
+    [Header("Wave Settings")]
     public int currentWave = 0;
     public Text waveText;
     
-    [Header("基础设置")]
+    [Header("Spawn Point")]
     public GameObject spawnPoint;
     
-    [Header("WaveStarter集成")]
-    public WaveStarterManager waveStarterManager;
+    [Header("WaveStarter UI")]
+    public WaveStarterUI waveStarterUI;
+    public WaveStarterSettings waveStarterSettings;
     
     private WaveData[] waves;
+    public int TotalWaves => waves != null ? waves.Length : 0;
     
-    public int TotalWaves
-    {
-        get { return waves != null ? waves.Length : 0; }
-    }
     private float timer;
     private int currentWaveSpawnCount = 0;
     private int totalWaveZombies = 0;
     private int currentZombieTypeIndex = 0;
     private int[] remainingZombies;
     private bool isSpawning = false;
-    private bool allowStartWave = false;  // 只有WaveStarterManager能设置这个为true
+    private bool allowStartWave = false;
+    private bool isGameStarted = false;
     
     private void Start()
     {
+        Debug.Log("[ZS] Start");
+        
         LoadLevelData();
         ResetSpawner();
-
+        
         if (Time.timeScale == 0)
-        {
             Time.timeScale = 1;
-        }
-
+        
         if (TutorialManager.instance != null && TutorialManager.instance.IsTutorialActive)
         {
+            Debug.Log("[ZS] Tutorial active, skip");
             return;
         }
-
-        if (LevelManager.instance != null)
+        
+        LevelManager.instance?.StartTimer();
+        
+        // 查找 UI（inactive prefab 也能找到）
+        if (waveStarterUI == null)
         {
-            LevelManager.instance.StartTimer();
+            WaveStarterUI[] all = FindObjectsOfType<WaveStarterUI>(true);
+            if (all.Length > 0) waveStarterUI = all[0];
+        }
+        Debug.Log("[ZS] waveStarterUI=" + (waveStarterUI != null));
+        // 如果没有配置，创建默认奖励
+
+        if (waveStarterSettings == null)
+
+        {
+
+            waveStarterSettings = new WaveStarterSettings();
+
         }
 
-        if (waveStarterManager != null)
+
+
+        // 延迟一帧开始
+
+        StartCoroutine(DelayedShowFirstWaveUI());
+    }
+    
+    private System.Collections.IEnumerator DelayedShowFirstWaveUI()
+    {
+        yield return null;
+        
+        if (!isGameStarted)
         {
-            waveStarterManager.StartGame();
+            isGameStarted = true;
+            ShowWaveUI();
+        }
+    }
+    
+    // ============================================================
+    // 统一入口：显示波次倒计时 UI
+    // ============================================================
+    private void ShowWaveUI()
+    {
+        Debug.Log("[ZS] ShowWaveUI wave=" + (currentWave + 1) + " waveStarterUI=" + (waveStarterUI != null));
+        
+        if (waveStarterUI != null)
+        {
+            waveStarterUI.Initialize(waveStarterSettings);
+            float waitTime = (waveStarterSettings != null) ? waveStarterSettings.waveWaitTime : 10f;
+            waveStarterUI.OnEarlyStart -= OnUI_EarlyStart;
+            waveStarterUI.OnEarlyStart += OnUI_EarlyStart;
+            waveStarterUI.OnCountdownComplete -= OnUI_CountdownDone;
+            waveStarterUI.OnCountdownComplete += OnUI_CountdownDone;
+            waveStarterUI.ShowStartWave(currentWave + 1, waitTime);
         }
         else
         {
-            SafeStartWave();
-        }
-    }
-
-    private void LoadLevelData()
-    {
-        if (LevelDataContainer.selectedLevelData != null)
-        {
-            waves = LevelDataContainer.selectedLevelData.waves;
+            Debug.LogWarning("[ZS] No WaveStarterUI! Starting wave immediately.");
+            StartNextWave();
         }
     }
     
-    private void Update()
+    // ============================================================
+    // UI 回调：玩家点击提前开始
+    // ============================================================
+    private void OnUI_EarlyStart()
     {
-        if (TutorialManager.instance != null && TutorialManager.instance.IsTutorialActive)
-        {
-            return;
-        }
-        
-        if (isSpawning && currentWaveSpawnCount < totalWaveZombies)
-        {
-            timer += Time.deltaTime;
-            float currentSpawnInterval = GetCurrentWaveInterval();
-            if (timer >= currentSpawnInterval)
-            {
-                SpawnZombie();
-                timer = 0;
-            }
-        }
+        Debug.Log("[ZS] OnUI_EarlyStart");
+        waveStarterUI?.Hide();
+        StartNextWave();
     }
     
-    private float GetCurrentWaveInterval()
+    // ============================================================
+    // UI 回调：倒计时结束
+    // ============================================================
+    private void OnUI_CountdownDone()
     {
-        if (waves != null && currentWave < waves.Length)
-        {
-            return waves[currentWave].spawnInterval;
-        }
-        return 2f;
+        Debug.Log("[ZS] OnUI_CountdownDone");
+        waveStarterUI?.ForceComplete();
+        StartNextWave();
     }
     
-    public void StartWave()
+    // ============================================================
+    // 正式生成僵尸
+    // ============================================================
+    private void StartNextWave()
     {
-        if (!allowStartWave)
-        {
-            return;
-        }
-        
-        allowStartWave = false;
-        
-        if (waves == null || currentWave >= waves.Length)
-        {
-            return;
-        }
-        
-        WaveData wave = waves[currentWave];
-        
-        currentWaveSpawnCount = 0;
-        totalWaveZombies = CalculateTotalWaveZombies(wave);
-        currentZombieTypeIndex = 0;
-        
-        if (wave.zombies != null)
-        {
-            remainingZombies = new int[wave.zombies.Length];
-            for (int i = 0; i < wave.zombies.Length; i++)
-            {
-                if (wave.zombies[i] != null)
-                {
-                    remainingZombies[i] = wave.zombies[i].count;
-                }
-            }
-        }
-        else
-        {
-            return;
-        }
-        
-        isSpawning = true;
-        timer = 0;
-        
-        UpdateWaveText();
-        
-        if (LevelManager.instance != null)
-        {
-            LevelManager.instance.ResetWave(totalWaveZombies);
-        }
+        Debug.Log("[ZS] StartNextWave " + (currentWave + 1));
+        allowStartWave = true;
+        StartWave();
     }
     
     public void SafeStartWave()
@@ -146,180 +139,170 @@ public class ZombieSpawner : MonoBehaviour
         StartWave();
     }
     
-    private int CalculateTotalWaveZombies(WaveData wave)
+    public void StartWave()
+    {
+        if (!allowStartWave) return;
+        allowStartWave = false;
+        
+        if (waves == null || currentWave >= waves.Length)
+        {
+            Debug.LogWarning("[ZS] Invalid wave: currentWave=" + currentWave + " Total=" + TotalWaves);
+            return;
+        }
+        
+        // 隐藏倒计时 UI
+        waveStarterUI?.Hide();
+        
+        WaveData wave = waves[currentWave];
+        currentWaveSpawnCount = 0;
+        totalWaveZombies = CalculateTotalZombies(wave);
+        currentZombieTypeIndex = 0;
+        
+        if (wave.zombies != null)
+        {
+            remainingZombies = new int[wave.zombies.Length];
+            for (int i = 0; i < wave.zombies.Length; i++)
+                if (wave.zombies[i] != null)
+                    remainingZombies[i] = wave.zombies[i].count;
+        }
+        else return;
+        
+        isSpawning = true;
+        timer = 0;
+        UpdateWaveText();
+        
+        LevelManager.instance?.ResetWave(totalWaveZombies);
+    }
+    
+    public void SetWaveNumber(int waveNumber)
+    {
+        currentWave = waveNumber - 1;
+    }
+    
+    private void Update()
+    {
+        if (TutorialManager.instance != null && TutorialManager.instance.IsTutorialActive)
+            return;
+        
+        if (isSpawning && currentWaveSpawnCount < totalWaveZombies)
+        {
+            timer += Time.deltaTime;
+            float interval = (waves != null && currentWave < waves.Length)
+                ? waves[currentWave].spawnInterval : 2f;
+            
+            if (timer >= interval)
+            {
+                SpawnZombie();
+                timer = 0;
+            }
+        }
+    }
+    
+    private int CalculateTotalZombies(WaveData wave)
     {
         int total = 0;
         if (wave.zombies != null)
-        {
-            foreach (WaveZombie zombie in wave.zombies)
-            {
-                if (zombie != null)
-                {
-                    total += zombie.count;
-                }
-            }
-        }
+            foreach (var z in wave.zombies)
+                if (z != null) total += z.count;
         return total;
     }
     
     private void SpawnZombie()
     {
-        if (waves == null || currentWave >= waves.Length || spawnPoint == null)
-        {
-            return;
-        }
-
+        if (waves == null || currentWave >= waves.Length || spawnPoint == null) return;
         WaveData wave = waves[currentWave];
-        if (wave.zombies == null || wave.zombies.Length == 0)
-        {
-            return;
-        }
-
-        int selectedIndex = GetNextZombieIndex(wave);
-
-        if (selectedIndex < 0)
-        {
-            return;
-        }
-
-        GameObject selectedPrefab = wave.zombies[selectedIndex].zombiePrefab;
-        if (selectedPrefab == null)
-        {
-            return;
-        }
-
-        GameObject unitManager = GameObject.Find("UnitManager");
-        Transform parentTransform = unitManager != null ? unitManager.transform : null;
-
-        GameObject zombie = Instantiate(selectedPrefab, spawnPoint.transform.position, Quaternion.identity, parentTransform);
+        if (wave.zombies == null || wave.zombies.Length == 0) return;
         
-        ZombieMovement zombieMove = zombie.GetComponent<ZombieMovement>();
-        if (zombieMove != null)
+        int idx = GetNextZombieIndex(wave);
+        if (idx < 0) return;
+        
+        GameObject prefab = wave.zombies[idx].zombiePrefab;
+        if (prefab == null) return;
+        
+        Transform parent = null;
+        GameObject um = GameObject.Find("UnitManager");
+        if (um != null) parent = um.transform;
+        
+        GameObject zombie = Instantiate(prefab, spawnPoint.transform.position, Quaternion.identity, parent);
+        
+        ZombieMovement zMove = zombie.GetComponent<ZombieMovement>();
+        if (zMove != null)
         {
-            if (zombieMove.spawnPoint == null)
-            {
-                zombieMove.spawnPoint = spawnPoint;
-            }
-            
-            GameObject endPointObj = GameObject.Find("EndPoint");
-            if (endPointObj != null && zombieMove.endPoint == null)
-            {
-                zombieMove.endPoint = endPointObj;
-            }
+            if (zMove.spawnPoint == null) zMove.spawnPoint = spawnPoint;
+            GameObject ep = GameObject.Find("EndPoint");
+            if (ep != null && zMove.endPoint == null) zMove.endPoint = ep;
         }
         
-        remainingZombies[selectedIndex]--;
+        remainingZombies[idx]--;
         currentWaveSpawnCount++;
         
         if (currentWaveSpawnCount >= totalWaveZombies)
         {
             isSpawning = false;
-            if (LevelManager.instance != null)
-            {
-                LevelManager.instance.SetSpawnComplete(totalWaveZombies);
-            }
+            LevelManager.instance?.SetSpawnComplete(totalWaveZombies);
         }
     }
     
     private int GetNextZombieIndex(WaveData wave)
     {
-        if (wave.zombies == null || wave.zombies.Length == 0)
-        {
-            return -1;
-        }
-        
-        float randomValue = Random.Range(0f, 1f);
-        
-        if (randomValue < wave.mixChance)
-        {
-            return GetRandomZombieIndex(wave);
-        }
-        else
-        {
-            return GetSequentialZombieIndex(wave);
-        }
+        if (wave.zombies == null || wave.zombies.Length == 0) return -1;
+        float r = Random.Range(0f, 1f);
+        return r < wave.mixChance ? GetRandomZ(wave) : GetSequentialZ(wave);
     }
     
-    private int GetRandomZombieIndex(WaveData wave)
+    private int GetRandomZ(WaveData wave)
     {
-        int totalRemaining = 0;
+        int total = 0;
+        for (int i = 0; i < wave.zombies.Length; i++)
+            if (wave.zombies[i]?.zombiePrefab != null) total += remainingZombies[i];
+        if (total <= 0) return -1;
+        int pos = Random.Range(0, total);
+        int cur = 0;
         for (int i = 0; i < wave.zombies.Length; i++)
         {
-            if (wave.zombies[i] != null && wave.zombies[i].zombiePrefab != null)
-            {
-                totalRemaining += remainingZombies[i];
-            }
+            if (wave.zombies[i]?.zombiePrefab == null) continue;
+            cur += remainingZombies[i];
+            if (pos < cur) return i;
         }
-        
-        if (totalRemaining <= 0)
-        {
-            return -1;
-        }
-        
-        int randomPos = Random.Range(0, totalRemaining);
-        int currentPos = 0;
-        
-        for (int i = 0; i < wave.zombies.Length; i++)
-        {
-            if (wave.zombies[i] != null && wave.zombies[i].zombiePrefab != null)
-            {
-                currentPos += remainingZombies[i];
-                if (randomPos < currentPos)
-                {
-                    return i;
-                }
-            }
-        }
-        
         return -1;
     }
     
-    private int GetSequentialZombieIndex(WaveData wave)
+    private int GetSequentialZ(WaveData wave)
     {
         while (currentZombieTypeIndex < wave.zombies.Length)
         {
-            WaveZombie currentZombie = wave.zombies[currentZombieTypeIndex];
-            if (currentZombie != null && currentZombie.zombiePrefab != null)
-            {
-                if (remainingZombies[currentZombieTypeIndex] > 0)
-                {
-                    return currentZombieTypeIndex;
-                }
-                else
-                {
-                    currentZombieTypeIndex++;
-                }
-            }
-            else
-            {
-                currentZombieTypeIndex++;
-            }
+            WaveZombie z = wave.zombies[currentZombieTypeIndex];
+            if (z?.zombiePrefab != null && remainingZombies[currentZombieTypeIndex] > 0)
+                return currentZombieTypeIndex;
+            currentZombieTypeIndex++;
         }
-        
         return -1;
     }
     
     private void UpdateWaveText()
     {
         if (waveText != null && waves != null)
-        {
-            waveText.text = $"第 {currentWave + 1} / {waves.Length} 波";
-        }
+            waveText.text = "第 " + (currentWave + 1) + " / " + waves.Length + " 波";
     }
     
     public void OnWaveComplete()
     {
+        Debug.Log("[ZS] OnWaveComplete");
         currentWave++;
         
-        if (currentWave >= waves.Length)
+        if (currentWave >= TotalWaves)
         {
+            Debug.Log("[ZS] All waves done!");
             return;
         }
         
-        if (waveStarterManager != null)
-        {
-            waveStarterManager.OnCurrentWaveComplete();
-        }
+        ShowWaveUI(); // 下一波 UI
+    }
+    
+    private void LoadLevelData()
+    {
+        if (LevelDataContainer.selectedLevelData != null)
+            waves = LevelDataContainer.selectedLevelData.waves;
     }
     
     public void ResetSpawner()
@@ -331,6 +314,8 @@ public class ZombieSpawner : MonoBehaviour
         remainingZombies = null;
         isSpawning = false;
         timer = 0;
+        allowStartWave = false;
+        isGameStarted = false;
         UpdateWaveText();
     }
 }
