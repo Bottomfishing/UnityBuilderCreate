@@ -89,12 +89,20 @@ public class ZombieSpawner : MonoBehaviour
         if (waveStarterUI != null)
         {
             waveStarterUI.Initialize(waveStarterSettings);
-            float waitTime = (waveStarterSettings != null) ? waveStarterSettings.waveWaitTime : 10f;
             waveStarterUI.OnEarlyStart -= OnUI_EarlyStart;
             waveStarterUI.OnEarlyStart += OnUI_EarlyStart;
             waveStarterUI.OnCountdownComplete -= OnUI_CountdownDone;
             waveStarterUI.OnCountdownComplete += OnUI_CountdownDone;
-            waveStarterUI.ShowStartWave(currentWave + 1, waitTime);
+            
+            if (currentWave == 0)
+            {
+                waveStarterUI.ShowGameStart();
+            }
+            else
+            {
+                float waitTime = (waveStarterSettings != null) ? waveStarterSettings.waveWaitTime : 10f;
+                waveStarterUI.ShowStartWave(currentWave + 1, waitTime);
+            }
         }
         else
         {
