@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class NavButtonConfig
@@ -19,25 +20,33 @@ public class NavButtonConfig
 
 public class NavigationManager : MonoBehaviour
 {
-    [Header("导航配置")]
+    [Header("导航按钮")]
     public NavButtonConfig[] navButtons;
 
     [Header("全局选中状态")]
     public Color selectedColor = new Color(0.2f, 0.6f, 1f);
     public Color normalColor = new Color(0.4f, 0.4f, 0.4f);
 
-    private void Start()
+    private bool isInitialized = false;
+
+    private void Awake()
     {
-        if (navButtons == null || navButtons.Length == 0)
-        {
-            return;
-        }
+        if (!isInitialized) DoInit();
+    }
+
+    private void DoInit()
+    {
+        if (isInitialized) return;
+        isInitialized = true;
+
+        if (navButtons == null || navButtons.Length == 0) return;
 
         for (int i = 0; i < navButtons.Length; i++)
         {
             int index = i;
             if (navButtons[index].button != null)
             {
+                navButtons[index].button.onClick.RemoveAllListeners();
                 navButtons[index].button.onClick.AddListener(() => ShowPage(navButtons[index].page));
             }
         }
@@ -57,27 +66,22 @@ public class NavigationManager : MonoBehaviour
             if (navButtons[i].icon != null)
             {
                 if (navButtons[i].iconNormalScale == Vector3.one)
-                {
                     navButtons[i].iconNormalScale = navButtons[i].icon.localScale;
-                }
                 if (navButtons[i].iconNormalPosition == Vector3.zero)
-                {
                     navButtons[i].iconNormalPosition = navButtons[i].icon.localPosition;
-                }
             }
-
             if (navButtons[i].text != null)
             {
                 if (navButtons[i].textNormalScale == Vector3.one)
-                {
                     navButtons[i].textNormalScale = navButtons[i].text.localScale;
-                }
             }
         }
     }
 
     public void ShowPage(GameObject targetPage)
     {
+        if (!isInitialized) DoInit();
+
         for (int i = 0; i < navButtons.Length; i++)
         {
             if (navButtons[i].page != null)
@@ -104,23 +108,16 @@ public class NavigationManager : MonoBehaviour
 
         Image buttonImage = config.button.GetComponent<Image>();
         if (buttonImage != null)
-        {
             buttonImage.color = isSelected ? selectedColor : normalColor;
-        }
 
         if (config.icon != null)
         {
             config.icon.localScale = isSelected ? config.iconSelectedScale : config.iconNormalScale;
-            
             if (config.useIconPositionChange)
-            {
                 config.icon.localPosition = isSelected ? config.iconSelectedPosition : config.iconNormalPosition;
-            }
         }
 
         if (config.text != null)
-        {
             config.text.localScale = isSelected ? config.textSelectedScale : config.textNormalScale;
-        }
     }
 }

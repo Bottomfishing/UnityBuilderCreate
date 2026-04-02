@@ -1,29 +1,29 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class TutorialUI : MonoBehaviour
 {
-    [Header("UI组件")]
+    [Header("UI元素")]
     public Text messageText;
     public Text stepText;
     public Button nextButton;
     public Button skipButton;
     public GameObject background;
     public CanvasGroup canvasGroup;
-    
-    [Header("动画设置")]
+
+    [Header("动画参数")]
     public float fadeInDuration = 0.3f;
     public float fadeOutDuration = 0.2f;
-    
-    private bool hasAddedListeners = false;
-    
+
+    private bool isInitialized = false;
+    private bool listenersAdded = false;
+
     private void Awake()
     {
         if (background == null)
-        {
             background = gameObject;
-        }
-        
+
         Image bgImage = background.GetComponent<Image>();
         if (bgImage == null)
         {
@@ -31,12 +31,12 @@ public class TutorialUI : MonoBehaviour
             bgImage.color = new Color(0, 0, 0, 0.7f);
         }
         bgImage.raycastTarget = true;
-        
+
         AutoFindComponents();
-        
-        AddButtonListeners();
+
+        if (!isInitialized) DoInit();
     }
-    
+
     private void AutoFindComponents()
     {
         if (messageText == null)
@@ -45,150 +45,112 @@ public class TutorialUI : MonoBehaviour
             foreach (Text t in texts)
             {
                 if (t.gameObject.name == "MessageText" || t.gameObject.name.ToLower().Contains("message"))
-                {
-                    messageText = t;
-                    break;
-                }
+                { messageText = t; break; }
             }
         }
-        
+
         if (stepText == null)
         {
             Text[] texts = GetComponentsInChildren<Text>();
             foreach (Text t in texts)
             {
                 if (t.gameObject.name == "StepText" || t.gameObject.name.ToLower().Contains("step"))
-                {
-                    stepText = t;
-                    break;
-                }
+                { stepText = t; break; }
             }
         }
-        
+
         if (nextButton == null)
         {
             Button[] buttons = GetComponentsInChildren<Button>();
             foreach (Button btn in buttons)
             {
                 if (btn.gameObject.name == "NextButton" || btn.gameObject.name.ToLower().Contains("next"))
-                {
-                    nextButton = btn;
-                    break;
-                }
+                { nextButton = btn; break; }
             }
         }
-        
+
         if (skipButton == null)
         {
             Button[] buttons = GetComponentsInChildren<Button>();
             foreach (Button btn in buttons)
             {
                 if (btn.gameObject.name == "SkipButton" || btn.gameObject.name.ToLower().Contains("skip"))
-                {
-                    skipButton = btn;
-                    break;
-                }
+                { skipButton = btn; break; }
             }
         }
-        
+
         if (canvasGroup == null)
         {
             canvasGroup = GetComponent<CanvasGroup>();
             if (canvasGroup == null)
-            {
                 canvasGroup = gameObject.AddComponent<CanvasGroup>();
-            }
         }
     }
-    
-    private void AddButtonListeners()
+
+    private void DoInit()
     {
-        if (hasAddedListeners) return;
-        
-        if (nextButton != null)
-        {
-            nextButton.onClick.RemoveAllListeners();
-            nextButton.onClick.AddListener(OnNextClick);
-        }
-        else
-        {
-            Debug.LogError("[TutorialUI] nextButton is NULL!");
-        }
-        
-        if (skipButton != null)
-        {
-            skipButton.onClick.RemoveAllListeners();
-            skipButton.onClick.AddListener(OnSkipClick);
-        }
-        else
-        {
-            Debug.LogError("[TutorialUI] skipButton is NULL!");
-        }
-        
-        hasAddedListeners = true;
-    }
-    
-    private void Start()
-    {
+        if (isInitialized) return;
+        isInitialized = true;
+
         if (canvasGroup != null)
         {
             canvasGroup.alpha = 1f;
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
         }
-        else
+
+        AddButtonListeners();
+    }
+
+    private void AddButtonListeners()
+    {
+        if (listenersAdded) return;
+        listenersAdded = true;
+
+        if (nextButton != null)
         {
-            Debug.LogError("[TutorialUI] Canvas Group is NULL!");
+            nextButton.onClick.RemoveAllListeners();
+            nextButton.onClick.AddListener(OnNextClick);
+        }
+
+        if (skipButton != null)
+        {
+            skipButton.onClick.RemoveAllListeners();
+            skipButton.onClick.AddListener(OnSkipClick);
         }
     }
-    
+
     public void ShowMessage(string message, int currentStep, int totalSteps)
     {
+        if (!isInitialized) DoInit();
+
         if (messageText != null)
-        {
             messageText.text = message;
-        }
-        else
-        {
-            Debug.LogError("[TutorialUI] messageText is NULL!");
-        }
-        
+
         if (stepText != null)
-        {
-            stepText.text = $"{currentStep} / {totalSteps}";
-        }
-        else
-        {
-            Debug.LogError("[TutorialUI] stepText is NULL!");
-        }
-        
+            stepText.text = currentStep + " / " + totalSteps;
+
         if (nextButton != null)
         {
             Text btnText = nextButton.GetComponentInChildren<Text>();
             if (btnText != null)
-            {
                 btnText.text = currentStep >= totalSteps ? "开始游戏" : "下一步";
-            }
         }
     }
-    
+
     private void OnNextClick()
     {
         if (TutorialManager.instance != null)
-        {
             TutorialManager.instance.NextStep();
-        }
     }
-    
+
     private void OnSkipClick()
     {
         if (TutorialManager.instance != null)
-        {
             TutorialManager.instance.SkipTutorial();
-        }
     }
-    
-    private System.Collections.IEnumerator FadeIn()
+
+    public System.Collections.IEnumerator FadeIn()
     {
         float elapsed = 0f;
         while (elapsed < fadeInDuration)
@@ -199,7 +161,7 @@ public class TutorialUI : MonoBehaviour
         }
         canvasGroup.alpha = 1f;
     }
-    
+
     public System.Collections.IEnumerator FadeOut()
     {
         float elapsed = 0f;

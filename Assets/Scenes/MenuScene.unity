@@ -4340,7 +4340,7 @@ MonoBehaviour:
     monsterIcon: {fileID: 21300000, guid: 93affe050e1b6414d80fdd8fd3513629, type: 3}
     monsterName: "\u666E\u901A\u50F5\u5C38"
     description: "\u6700\u57FA\u7840\u7684\u50F5\u5C38\uFF0C\u5F31\u7206\u4E86"
-    maxHealth: 50
+    maxHealth: 40
     moveSpeed: 0.8
   - monsterPrefab: {fileID: 8638358505556251938, guid: 9c457b528b29214409e99326370cd452, type: 3}
     monsterIcon: {fileID: 21300000, guid: 453df828dfd19684cb1d3799f63fc013, type: 3}
@@ -4354,6 +4354,18 @@ MonoBehaviour:
     description: "\u8840\u91CF\u539A\uFF0C\u5948\u9020"
     maxHealth: 80
     moveSpeed: 0.6
+  - monsterPrefab: {fileID: 8638358505556251938, guid: e82a2ddf4dc7fb74db021a5041211408, type: 3}
+    monsterIcon: {fileID: 21300000, guid: bece18830acc3ca4fba29ee303eaca70, type: 3}
+    monsterName: "\u5206\u88C2\u50F5\u5C38"
+    description: "\u6B7B\u4EA1\u4F1A\u5206\u88C2\u62102\u4E2A\u5C0F\u50F5\u5C38"
+    maxHealth: 70
+    moveSpeed: 0.7
+  - monsterPrefab: {fileID: 8638358505556251938, guid: 7c16f96b3ba388a48a2e8eb6598ec5ca, type: 3}
+    monsterIcon: {fileID: 21300000, guid: 5822afe31aee5c840b04ae44a97d40f0, type: 3}
+    monsterName: "\u62A4\u76FE\u50F5\u5C38"
+    description: "\u4F1A\u514D\u75AB\u524D\u51E0\u6B21\u4F24\u5BB3"
+    maxHealth: 60
+    moveSpeed: 0.8
 --- !u!114 &598142987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6596,7 +6608,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.79999924, y: -74.3}
-  m_SizeDelta: {x: 46.72, y: -41.117}
+  m_SizeDelta: {x: 80.600006, y: -41.117}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &888363510
 MonoBehaviour:
@@ -8831,15 +8843,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.9019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: a21930842b866aa4db7b1a79e58c9644, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -15776,8 +15788,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -791}
-  m_SizeDelta: {x: -109.724976, y: 622.495}
+  m_AnchoredPosition: {x: 0, y: -811}
+  m_SizeDelta: {x: -109.725, y: 584.654}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1901222793
 MonoBehaviour:
@@ -15827,7 +15839,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u6E38\u620F\u73A9\u6CD5\uFF1A\n\u5728\u6E38\u620F\u4E2D\u6211\u4EEC\u53EF\u4EE5\u70B9\u51FB\u5730\u9762\u653E\u7F6E\u70AE\u5854\u6765\u62B5\u6297\u50F5\u5C38\u5165\u4FB5\uFF0C\u70B9\u51FB\u70AE\u5854\u53EF\u9009\u62E9\u5347\u7EA7\u70AE\u5854\u4EE5\u66F4\u5F3A\u7684\u72B6\u6001\u51FB\u8D25\u50F5\u5C38\uFF0C\u6E38\u620F\u65F6\u5019\u6CE8\u610F\u81EA\u5DF1\u7684\u8840\u91CF\u548C\u91D1\u94B1\u5466~\n\u8BF7\u4E0D\u8981\u957F\u65F6\u95F4\u6E38\u73A9\uFF0C\u6CE8\u610F\u4F11\u606F~\n"
+  m_Text: "\u6E38\u620F\u73A9\u6CD5\uFF1A\n\u5728\u6E38\u620F\u4E2D\u6211\u4EEC\u53EF\u4EE5\u70B9\u51FB\u5730\u9762\u653E\u7F6E\u70AE\u5854\u6765\u62B5\u6297\u50F5\u5C38\u5165\u4FB5\uFF0C\u70B9\u51FB\u70AE\u5854\u53EF\u9009\u62E9\u5347\u7EA7\u70AE\u5854\u4EE5\u66F4\u5F3A\u7684\u72B6\u6001\u51FB\u8D25\u50F5\u5C38\uFF0C\u6E38\u620F\u65F6\u5019\u6CE8\u610F\u81EA\u5DF1\u7684\u8840\u91CF\u548C\u91D1\u94B1\u5466~\n"
 --- !u!222 &1901222795
 CanvasRenderer:
   m_ObjectHideFlags: 0
