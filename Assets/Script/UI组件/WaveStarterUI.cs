@@ -59,7 +59,6 @@ public class WaveStarterUI : MonoBehaviour
     public void Initialize(WaveStarterSettings waveSettings)
     {
         settings = waveSettings;
-        Debug.Log($"WaveStarterUI: Initialized with settings, showBonusHint={settings?.showBonusHint}");
     }
     
     public void ShowGameStart()
@@ -91,7 +90,6 @@ public class WaveStarterUI : MonoBehaviour
             bonusText.gameObject.SetActive(false);
         
         gameObject.SetActive(true);
-        Debug.Log("WaveStarterUI: Showing game start button (no countdown, no bonus)");
     }
     
     public void ShowStartWave(int waveNumber, float waitTime)
@@ -113,7 +111,6 @@ public class WaveStarterUI : MonoBehaviour
         
         UpdateUI();
         gameObject.SetActive(true);
-        Debug.Log($"WaveStarterUI: Showing wave countdown for wave {waveNumber}, waitTime={waitTime}");
     }
     
     private void Update()
@@ -197,7 +194,6 @@ public class WaveStarterUI : MonoBehaviour
     {
         if (isGameStartMode)
         {
-            Debug.Log("WaveStarterUI: Game start button clicked");
             Hide();
             OnEarlyStart?.Invoke();
             return;
@@ -210,11 +206,6 @@ public class WaveStarterUI : MonoBehaviour
         if (currentBonusGold > 0 && GameManager.Instance != null)
         {
             GameManager.Instance.AddMoney(currentBonusGold);
-            Debug.Log($"WaveStarterUI: Added {currentBonusGold} gold bonus to player");
-        }
-        else if (currentBonusGold > 0 && GameManager.Instance == null)
-        {
-            Debug.LogWarning("WaveStarterUI: GameManager.Instance is null, cannot add bonus gold!");
         }
         
         Hide();

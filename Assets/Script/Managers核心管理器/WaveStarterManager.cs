@@ -60,7 +60,6 @@ public class WaveStarterManager : MonoBehaviour
             waveStarterUI.OnEarlyStart += HandleEarlyStart;
             waveStarterUI.OnCountdownComplete -= HandleCountdownComplete;
             waveStarterUI.OnCountdownComplete += HandleCountdownComplete;
-            Debug.Log("[WS-Mgr] UI wired up");
         }
         else
         {

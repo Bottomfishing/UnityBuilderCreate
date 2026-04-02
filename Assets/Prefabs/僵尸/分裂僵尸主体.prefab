@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 6348671782465554280}
   - component: {fileID: 3495143209675070015}
   m_Layer: 0
-  m_Name: "\u5206\u88C2\u50F5\u5C38 \u4E3B\u4F53"
+  m_Name: "\u5206\u88C2\u50F5\u5C38\u4E3B\u4F53"
   m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -233,7 +233,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.33269954, y: 0.33269954, z: 0.45094255}
+  m_LocalScale: {x: 0.62915945, y: 0.62915945, z: 0.85276574}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4305353461796584967}
@@ -365,10 +365,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a101b61db9d610d448b339d9ee90df4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.8
+  moveSpeed: 0.7
   spawnPoint: {fileID: 7920529382964365993, guid: 73ea2cb8510f0224bb77a3976b6c8817, type: 3}
   endPoint: {fileID: 0}
-  damageToPlayer: 1
+  damageToPlayer: 3
   slowedColor: {r: 0.5, g: 0.8, b: 1, a: 1}
   frozenColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &6348671782465554280
@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafcf01c62ca304c9f0b39cb55cde94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 70
   healthBarYOffset: 0.8
   fullHealthColor: {r: 0, g: 1, b: 0, a: 1}
   lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
@@ -396,10 +396,18 @@ MonoBehaviour:
   hitSound: {fileID: 8300000, guid: 2e3d5300f03bfad488fe83438148d6ab, type: 3}
   dieEffectPrefab: {fileID: 102671894910185582, guid: d6cf360222fd11243853ec944dd7809c, type: 3}
   reward: 30
-  canSplit: 0
-  splitZombiePrefab: {fileID: 0}
+  canSplit: 1
+  splitZombiePrefab: {fileID: 8638358505556251938, guid: e7e031708c874554ab02403e52c6fb57, type: 3}
   splitCount: 2
-  splitOffset: 0.5
+  splitOffset: 0.1
+  useShield: 0
+  shieldHits: 3
+  damageReductionPercent: 0.5
+  shieldEffectPrefab: {fileID: 0}
+  shieldEffectDuration: 0.5
+  shieldColor: {r: 0, g: 0.5, b: 1, a: 0.5}
+  shieldShowDuration: 1
+  shieldScaleMultiplier: 1.2
 --- !u!82 &3495143209675070015
 AudioSource:
   m_ObjectHideFlags: 0

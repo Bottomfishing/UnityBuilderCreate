@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
         get { return instance; }
     }
     
+    private Vector3 initialMoneyPanelPosition;
+    private Coroutine moneyAnimationCoroutine;
+    
     private void Awake()
     {
         if (instance == null)
@@ -42,6 +45,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
             return;
+        }
+        
+        if (moneyPanel != null)
+        {
+            initialMoneyPanelPosition = moneyPanel.transform.localPosition;
         }
         
         InitializeFromLevelData();
@@ -68,9 +76,9 @@ public class GameManager : MonoBehaviour
         currentMoney += amount;
         UpdateMoneyText();
         
-        if (amount > 0)
+        if (amount > 0 && moneyAnimationCoroutine == null)
         {
-            StartCoroutine(PlayMoneyAnimation());
+            moneyAnimationCoroutine = StartCoroutine(PlayMoneyAnimation());
         }
     }
     
@@ -78,32 +86,37 @@ public class GameManager : MonoBehaviour
     {
         if (moneyPanel != null)
         {
-            Vector3 originalPosition = moneyPanel.transform.localPosition;
-            Vector3 jumpPosition = originalPosition + new Vector3(0, moneyJumpHeight, 0);
+            Vector3 jumpPosition = initialMoneyPanelPosition + new Vector3(0, moneyJumpHeight, 0);
             
             float elapsedTime = 0f;
             while (elapsedTime < moneyAnimationDuration / 2 && moneyPanel != null)
             {
-                moneyPanel.transform.localPosition = Vector3.Lerp(originalPosition, jumpPosition, elapsedTime / (moneyAnimationDuration / 2));
+                moneyPanel.transform.localPosition = Vector3.Lerp(initialMoneyPanelPosition, jumpPosition, elapsedTime / (moneyAnimationDuration / 2));
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
             
-            if (moneyPanel == null) yield break;
+            if (moneyPanel == null)
+            {
+                moneyAnimationCoroutine = null;
+                yield break;
+            }
             
             elapsedTime = 0f;
             while (elapsedTime < moneyAnimationDuration / 2 && moneyPanel != null)
             {
-                moneyPanel.transform.localPosition = Vector3.Lerp(jumpPosition, originalPosition, elapsedTime / (moneyAnimationDuration / 2));
+                moneyPanel.transform.localPosition = Vector3.Lerp(jumpPosition, initialMoneyPanelPosition, elapsedTime / (moneyAnimationDuration / 2));
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
             
             if (moneyPanel != null)
             {
-                moneyPanel.transform.localPosition = originalPosition;
+                moneyPanel.transform.localPosition = initialMoneyPanelPosition;
             }
         }
+        
+        moneyAnimationCoroutine = null;
     }
     
     public bool SpendMoney(int amount)

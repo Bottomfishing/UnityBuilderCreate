@@ -28,8 +28,6 @@ public class ZombieSpawner : MonoBehaviour
     
     private void Start()
     {
-        Debug.Log("[ZS] Start");
-        
         LoadLevelData();
         ResetSpawner();
         
@@ -37,34 +35,19 @@ public class ZombieSpawner : MonoBehaviour
             Time.timeScale = 1;
         
         if (TutorialManager.instance != null && TutorialManager.instance.IsTutorialActive)
-        {
-            Debug.Log("[ZS] Tutorial active, skip");
             return;
-        }
         
         LevelManager.instance?.StartTimer();
         
-        // 查找 UI（inactive prefab 也能找到）
         if (waveStarterUI == null)
         {
             WaveStarterUI[] all = FindObjectsOfType<WaveStarterUI>(true);
             if (all.Length > 0) waveStarterUI = all[0];
         }
-        Debug.Log("[ZS] waveStarterUI=" + (waveStarterUI != null));
-        // 如果没有配置，创建默认奖励
-
+        
         if (waveStarterSettings == null)
-
-        {
-
             waveStarterSettings = new WaveStarterSettings();
-
-        }
-
-
-
-        // 延迟一帧开始
-
+        
         StartCoroutine(DelayedShowFirstWaveUI());
     }
     
@@ -79,13 +62,8 @@ public class ZombieSpawner : MonoBehaviour
         }
     }
     
-    // ============================================================
-    // 统一入口：显示波次倒计时 UI
-    // ============================================================
     private void ShowWaveUI()
     {
-        Debug.Log("[ZS] ShowWaveUI wave=" + (currentWave + 1) + " waveStarterUI=" + (waveStarterUI != null));
-        
         if (waveStarterUI != null)
         {
             waveStarterUI.Initialize(waveStarterSettings);
@@ -111,32 +89,20 @@ public class ZombieSpawner : MonoBehaviour
         }
     }
     
-    // ============================================================
-    // UI 回调：玩家点击提前开始
-    // ============================================================
     private void OnUI_EarlyStart()
     {
-        Debug.Log("[ZS] OnUI_EarlyStart");
         waveStarterUI?.Hide();
         StartNextWave();
     }
     
-    // ============================================================
-    // UI 回调：倒计时结束
-    // ============================================================
     private void OnUI_CountdownDone()
     {
-        Debug.Log("[ZS] OnUI_CountdownDone");
         waveStarterUI?.ForceComplete();
         StartNextWave();
     }
     
-    // ============================================================
-    // 正式生成僵尸
-    // ============================================================
     private void StartNextWave()
     {
-        Debug.Log("[ZS] StartNextWave " + (currentWave + 1));
         allowStartWave = true;
         StartWave();
     }
@@ -158,7 +124,6 @@ public class ZombieSpawner : MonoBehaviour
             return;
         }
         
-        // 隐藏倒计时 UI
         waveStarterUI?.Hide();
         
         WaveData wave = waves[currentWave];
@@ -248,6 +213,11 @@ public class ZombieSpawner : MonoBehaviour
         {
             isSpawning = false;
             LevelManager.instance?.SetSpawnComplete(totalWaveZombies);
+            
+            currentWave++;
+            
+            if (currentWave < TotalWaves)
+                ShowWaveUI();
         }
     }
     
@@ -295,16 +265,12 @@ public class ZombieSpawner : MonoBehaviour
     
     public void OnWaveComplete()
     {
-        Debug.Log("[ZS] OnWaveComplete");
         currentWave++;
         
         if (currentWave >= TotalWaves)
-        {
-            Debug.Log("[ZS] All waves done!");
             return;
-        }
         
-        ShowWaveUI(); // 下一波 UI
+        ShowWaveUI();
     }
     
     private void LoadLevelData()

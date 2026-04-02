@@ -6646,7 +6646,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u7B80\u62A5"
+  m_Text: "\u66F4\u65B0\u7B80\u62A5"
 --- !u!222 &888363512
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10196,8 +10196,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 455.2, y: 267}
-  m_SizeDelta: {x: 92.402, y: 92.402}
+  m_AnchoredPosition: {x: 455.2, y: 859}
+  m_SizeDelta: {x: 87, y: 87}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1182351915
 MonoBehaviour:
@@ -10263,7 +10263,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 80cdab4e5a7e5ab4db921a2400089241, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 74c19ffb4c242ac4d848a371fcc8af56, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

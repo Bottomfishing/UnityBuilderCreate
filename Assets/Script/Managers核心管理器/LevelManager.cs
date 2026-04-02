@@ -89,11 +89,7 @@ public class LevelManager : MonoBehaviour
             {
                 shouldCheckForWin = false;
 
-                if (cachedSpawner != null && cachedSpawner.currentWave + 1 <= cachedSpawner.TotalWaves)
-                {
-                    cachedSpawner.OnWaveComplete();
-                }
-                else
+                if (cachedSpawner != null && cachedSpawner.currentWave >= cachedSpawner.TotalWaves)
                 {
                     LevelWin();
                 }
