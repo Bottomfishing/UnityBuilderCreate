@@ -76,6 +76,11 @@ public class GameManager : MonoBehaviour
         currentMoney += amount;
         UpdateMoneyText();
         
+        if (amount > 0 && AchievementManager.instance != null)
+        {
+            AchievementManager.instance.UpdateProgress(AchievementType.CollectCoins, amount);
+        }
+        
         if (amount > 0 && moneyAnimationCoroutine == null)
         {
             moneyAnimationCoroutine = StartCoroutine(PlayMoneyAnimation());

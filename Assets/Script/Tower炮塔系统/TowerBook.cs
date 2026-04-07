@@ -14,19 +14,28 @@ public class TowerBook : MonoBehaviour
     [Header("炮塔数据")]
     public TowerDataForBook[] towers;
     
-    private void Start()
+    private bool isInitialized = false;
+
+    private void Awake()
     {
-        if (towerBookUI != null)
-        {
-            towerBookUI.SetActive(false);
-        }
+        DoInit();
+    }
+    
+    private void DoInit()
+    {
+        if (isInitialized) return;
+        isInitialized = true;
         
         if (closeButton != null)
         {
+            closeButton.onClick.RemoveAllListeners();
             closeButton.onClick.AddListener(CloseTowerBook);
         }
         
         GenerateTowerItems();
+        
+        if (towerBookUI != null)
+            towerBookUI.SetActive(false);
     }
     
     private void GenerateTowerItems()
@@ -135,6 +144,8 @@ public class TowerBook : MonoBehaviour
     
     public void OpenTowerBook()
     {
+        if (!isInitialized) DoInit();
+        
         if (towerBookUI != null)
         {
             towerBookUI.SetActive(true);

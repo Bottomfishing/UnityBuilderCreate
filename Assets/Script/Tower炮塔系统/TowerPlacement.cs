@@ -341,6 +341,8 @@ public class TowerPlacement : MonoBehaviour
         Tower tower = previewTower.GetComponent<Tower>();
         if (tower != null)
         {
+            tower.enabled = false;
+            
             GameObject rangeObj = new GameObject("PreviewRange");
             rangeObj.transform.SetParent(previewTower.transform);
             rangeObj.transform.localPosition = Vector3.zero;
@@ -423,6 +425,11 @@ public class TowerPlacement : MonoBehaviour
 
             TowerOnGrid towerOnGrid = towerObj.AddComponent<TowerOnGrid>();
             towerOnGrid.SetTowerData(towerData);
+
+            if (AchievementManager.instance != null)
+            {
+                AchievementManager.instance.UpdateProgress(AchievementType.BuildTowers, 1);
+            }
 
             ZombieMovement.RefreshAllZombiePaths();
         }

@@ -15,23 +15,30 @@ public class AchievementUI : MonoBehaviour
     public Text overallProgressText;
 
     private List<AchievementItem> achievementItems = new List<AchievementItem>();
+    private bool isInitialized = false;
 
     private void Awake()
     {
+        DoInit();
+    }
+    
+    private void DoInit()
+    {
+        if (isInitialized) return;
+        isInitialized = true;
+        
         if (closeButton != null)
         {
+            closeButton.onClick.RemoveAllListeners();
             closeButton.onClick.AddListener(Hide);
         }
-    }
-
-    private void Start()
-    {
+        
         if (AchievementManager.instance != null)
         {
             AchievementManager.instance.OnAchievementCompleted += OnAchievementCompleted;
             AchievementManager.instance.OnProgressUpdated += OnProgressUpdated;
         }
-
+        
         gameObject.SetActive(false);
     }
 
@@ -46,6 +53,7 @@ public class AchievementUI : MonoBehaviour
 
     public void Show()
     {
+        if (!isInitialized) DoInit();
         gameObject.SetActive(true);
         RefreshAchievements();
     }

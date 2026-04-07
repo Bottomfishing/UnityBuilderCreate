@@ -17,9 +17,25 @@ public class SettingsPage : MonoBehaviour
     public Toggle alwaysShowTutorialToggle;
 
     private const string AlwaysShowTutorialKey = "AlwaysShowTutorial";
+    private bool isInitialized = false;
 
-    private void Start()
+    private void Awake()
     {
+        DoInit();
+    }
+    
+    private void DoInit()
+    {
+        if (isInitialized) return;
+        isInitialized = true;
+        
+        InitializeSliders();
+        InitializeTutorialToggle();
+    }
+    
+    private void OnEnable()
+    {
+        if (!isInitialized) DoInit();
         InitializeSliders();
         InitializeTutorialToggle();
     }

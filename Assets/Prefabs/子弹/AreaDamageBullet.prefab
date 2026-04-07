@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 180.61578, y: 491.64645, z: -2.3205748}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -133,11 +133,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 737c18046741e13469122968c2c51e59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 8
+  bulletSpeed: 6
   damage: 0
   isIceBullet: 0
   slowDuration: 2
   slowMultiplier: 0.5
   isAreaDamage: 1
-  explosionRadius: 1
+  explosionRadius: 0.8
   explosionEffectPrefab: {fileID: 6814957822230587986, guid: 61f122dee452e7e4eb208894a36ae459, type: 3}

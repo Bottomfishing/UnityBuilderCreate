@@ -2,48 +2,83 @@ using UnityEngine;
 
 public class ZombieHealth : MonoBehaviour
 {
-    [Header("血量基础设置")]
+    [Header("========== 核心属性 ==========")]
+    [Tooltip("僵尸最大血量")]
     public int maxHealth = 5;
+    
+    [Tooltip("击杀奖励金币数量")]
+    public int reward = 50;
+
+    [Header("========== 血条视觉 ==========")]
+    [Tooltip("血条相对僵尸头顶的Y偏移")]
     public float healthBarYOffset = 0.8f;
-
-    [Header("血条视觉设置")]
-    public Color fullHealthColor = Color.green;
-    public Color lowHealthColor = Color.red;
-    public float healthBarHeight = 0.2f;
+    
+    [Tooltip("血条宽度")]
     public float healthBarWidth = 1f;
+    
+    [Tooltip("血条高度")]
+    public float healthBarHeight = 0.2f;
+    
+    [Tooltip("满血颜色")]
+    public Color fullHealthColor = Color.green;
+    
+    [Tooltip("低血量颜色（30%以下）")]
+    public Color lowHealthColor = Color.red;
 
-    [Header("组件赋值")]
+    [Header("========== 受击效果 ==========")]
+    [Tooltip("受击标记预制体")]
+    public GameObject hitMarkPrefab;
+    
+    [Tooltip("受击音效")]
+    public AudioClip hitSound;
+
+    [Header("========== 死亡效果 ==========")]
+    [Tooltip("死亡特效预制体")]
+    public GameObject dieEffectPrefab;
+
+    [Header("========== 分裂机制（可选） ==========")]
+    [Tooltip("是否启用分裂")]
+    public bool canSplit = false;
+    
+    [Tooltip("分裂出的僵尸预制体")]
+    public GameObject splitZombiePrefab;
+    
+    [Tooltip("分裂数量")]
+    public int splitCount = 2;
+    
+    [Tooltip("分裂偏移距离")]
+    public float splitOffset = 0.5f;
+
+    [Header("========== 护盾机制（可选） ==========")]
+    [Tooltip("是否启用护盾")]
+    public bool useShield = false;
+    
+    [Tooltip("护盾可抵挡次数")]
+    public int shieldHits = 3;
+    
+    [Tooltip("护盾减伤比例 (0-1)")]
+    [Range(0f, 1f)]
+    public float damageReductionPercent = 0.5f;
+    
+    [Tooltip("护盾特效预制体")]
+    public GameObject shieldEffectPrefab;
+    
+    [Tooltip("护盾出现/消失动画时长(秒)")]
+    public float shieldEffectDuration = 0.5f;
+    
+    [Tooltip("护盾显示时长(秒)")]
+    public float shieldShowDuration = 1f;
+    
+    [Tooltip("护盾颜色")]
+    public Color shieldColor = new Color(0f, 0.5f, 1f, 0.5f);
+    
+    [Tooltip("护盾缩放倍率")]
+    public float shieldScaleMultiplier = 1.2f;
+
+    [Header("========== 组件引用（一般不需要动） ==========")]
     public Transform healthBarRoot;
     public SpriteRenderer healthBarBG;
     public SpriteRenderer healthBarFill;
-
-    [Header("简单受击效果")]
-    public GameObject hitMarkPrefab;
-    public AudioClip hitSound;
-    private AudioSource audioSource;
-
-    [Header("简单死亡效果")]
-    public GameObject dieEffectPrefab;
-    
-    [Header("奖励设置")]
-    public int reward = 50;
-
-    [Header("分裂设置")]
-    public bool canSplit = false;
-    public GameObject splitZombiePrefab;
-    public int splitCount = 2;
-    public float splitOffset = 0.5f;
-
-    [Header("护盾设置")]
-    public bool useShield = false;
-    public int shieldHits = 3;
-    [Range(0f, 1f)]
-    public float damageReductionPercent = 0.5f;
-    public GameObject shieldEffectPrefab;
-    public float shieldEffectDuration = 0.5f;
-    public Color shieldColor = new Color(0f, 0.5f, 1f, 0.5f);
-    public float shieldShowDuration = 1f;
-    public float shieldScaleMultiplier = 1.2f;
 
     private int _currentHealth;
     private Transform _fillTransform;
@@ -51,6 +86,7 @@ public class ZombieHealth : MonoBehaviour
     private int remainingShieldHits;
     private GameObject currentShieldEffect;
     private SpriteRenderer zombieSpriteRenderer;
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -282,7 +318,6 @@ public class ZombieHealth : MonoBehaviour
     private void UpdateHealthBarVisual()
     {
         if (healthBarFill == null) return;
-
         float healthRatio = (float)_currentHealth / maxHealth;
         _fillTransform.localScale = new Vector3(healthRatio * healthBarWidth, healthBarHeight, 1);
         healthBarFill.color = healthRatio <= 0.3f ? lowHealthColor : fullHealthColor;
@@ -300,6 +335,11 @@ public class ZombieHealth : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.AddMoney(reward);
+        }
+        
+        if (AchievementManager.instance != null)
+        {
+            AchievementManager.instance.UpdateProgress(AchievementType.KillZombies, 1);
         }
     
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -335,7 +375,6 @@ public class ZombieHealth : MonoBehaviour
             }
         }
 
-        // 分裂僵尸
         if (canSplit && splitZombiePrefab != null && splitCount > 0)
         {
             SpawnSplitZombies();
@@ -353,7 +392,6 @@ public class ZombieHealth : MonoBehaviour
 
         for (int i = 0; i < splitCount; i++)
         {
-            // 计算小僵尸的位置（左右分开）
             float angle = (i * 360f / splitCount) * Mathf.Deg2Rad;
             Vector3 offset = new Vector3(
                 Mathf.Cos(angle) * splitOffset,
@@ -363,10 +401,8 @@ public class ZombieHealth : MonoBehaviour
             
             Vector3 spawnPos = transform.position + offset;
 
-            // 生成小僵尸
             GameObject zombie = Instantiate(splitZombiePrefab, spawnPos, Quaternion.identity, parentTransform);
 
-            // 复制 spawnPoint 和 endPoint
             ZombieMovement zombieMove = zombie.GetComponent<ZombieMovement>();
             if (zombieMove != null && originalMovement != null)
             {

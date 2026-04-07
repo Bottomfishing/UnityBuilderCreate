@@ -115,9 +115,15 @@ public class AchievementManager : MonoBehaviour
             }
         }
 
-        if (AchievementPopup.instance != null)
+        AchievementPopup popup = AchievementPopup.instance;
+        if (popup == null)
         {
-            AchievementPopup.instance.ShowAchievement(achievement);
+            popup = FindObjectOfType<AchievementPopup>(true);
+        }
+        
+        if (popup != null)
+        {
+            popup.ShowAchievement(achievement);
         }
 
         if (OnAchievementCompleted != null)

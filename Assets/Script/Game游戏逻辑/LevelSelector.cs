@@ -22,16 +22,19 @@ public class LevelSelector : MonoBehaviour
     {
         if (leftArrowButton != null)
         {
+            leftArrowButton.onClick.RemoveAllListeners();
             leftArrowButton.onClick.AddListener(OnLeftArrowClick);
         }
         
         if (rightArrowButton != null)
         {
+            rightArrowButton.onClick.RemoveAllListeners();
             rightArrowButton.onClick.AddListener(OnRightArrowClick);
         }
         
         if (startButton != null)
         {
+            startButton.onClick.RemoveAllListeners();
             startButton.onClick.AddListener(OnStartButtonClick);
         }
         
@@ -142,12 +145,14 @@ public class LevelSelector : MonoBehaviour
             return;
         }
         
-        if (ResourceManager.instance != null)
+        if (ResourceManager.instance == null)
         {
-            if (!ResourceManager.instance.SpendEnergy(10))
-            {
-                return;
-            }
+            return;
+        }
+        
+        if (!ResourceManager.instance.SpendEnergy(10))
+        {
+            return;
         }
         
         LevelDataContainer.selectedLevelData = currentLevel;

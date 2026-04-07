@@ -14,18 +14,25 @@ public class InventoryUI : MonoBehaviour
     public Sprite energyIcon;
 
     private List<InventorySlot> _slots = new List<InventorySlot>();
+    private bool isInitialized = false;
 
     private void Awake()
     {
-        InitializeSlots();
+        DoInit();
     }
-
-    private void Start()
+    
+    private void DoInit()
     {
+        if (isInitialized) return;
+        isInitialized = true;
+        
+        InitializeSlots();
+        
         if (ResourceManager.instance != null)
         {
             ResourceManager.instance.OnResourceChanged += RefreshInventory;
         }
+        
         RefreshInventory();
     }
 
@@ -35,6 +42,12 @@ public class InventoryUI : MonoBehaviour
         {
             ResourceManager.instance.OnResourceChanged -= RefreshInventory;
         }
+    }
+    
+    private void OnEnable()
+    {
+        if (!isInitialized) DoInit();
+        RefreshInventory();
     }
 
     private void InitializeSlots()

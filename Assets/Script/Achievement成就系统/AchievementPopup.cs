@@ -27,11 +27,20 @@ public class AchievementPopup : MonoBehaviour
 
     private CanvasGroup canvasGroup;
     private float timer;
+    private bool isInitialized = false;
 
     public static AchievementPopup instance { get; private set; }
 
     private void Awake()
     {
+        DoInit();
+    }
+    
+    private void DoInit()
+    {
+        if (isInitialized) return;
+        isInitialized = true;
+        
         instance = this;
 
         canvasGroup = GetComponent<CanvasGroup>();
@@ -42,12 +51,10 @@ public class AchievementPopup : MonoBehaviour
 
         canvasGroup.alpha = 0f;
         gameObject.SetActive(false);
-    }
-
-    private void Start()
-    {
+        
         if (confirmButton != null)
         {
+            confirmButton.onClick.RemoveAllListeners();
             confirmButton.onClick.AddListener(Hide);
         }
     }
@@ -84,6 +91,8 @@ public class AchievementPopup : MonoBehaviour
     public void ShowAchievement(AchievementData achievement)
     {
         if (achievement == null) return;
+        
+        if (!isInitialized) DoInit();
 
         gameObject.SetActive(true);
         timer = 0f;

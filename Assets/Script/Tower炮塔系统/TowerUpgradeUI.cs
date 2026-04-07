@@ -216,6 +216,8 @@ public class TowerUpgradeUI : MonoBehaviour
         Tower tower = previewTower.GetComponent<Tower>();
         if (tower != null)
         {
+            tower.enabled = false;
+            
             GameObject rangeObj = new GameObject("UpgradedTowerRange");
             rangeObj.transform.SetParent(previewTower.transform);
             rangeObj.transform.localPosition = Vector3.zero;

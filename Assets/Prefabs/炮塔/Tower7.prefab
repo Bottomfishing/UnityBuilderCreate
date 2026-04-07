@@ -161,11 +161,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04be3a7d01c6fb142a32f9e1d3e37fda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1.8
-  attackInterval: 1
+  attackRange: 1.6
+  attackInterval: 1.2
   bulletPrefab: {fileID: 8140176284092311659, guid: e4906c7ac058a6b49a59223cb9881057, type: 3}
   firePoint: {fileID: 0}
-  bulletDamage: 20
+  bulletDamage: 16
   useAreaDamage: 1
   explosionRadius: 2
   explosionEffectPrefab: {fileID: 6814957822230587986, guid: 61f122dee452e7e4eb208894a36ae459, type: 3}

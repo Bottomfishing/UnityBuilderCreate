@@ -277,6 +277,11 @@ public class LevelManager : MonoBehaviour
         
         LevelSelector.UnlockNextLevel();
         
+        if (AchievementManager.instance != null)
+        {
+            AchievementManager.instance.UpdateProgress(AchievementType.PassLevels, 1);
+        }
+        
         if (winText != null)
         {
             winText.gameObject.SetActive(true);

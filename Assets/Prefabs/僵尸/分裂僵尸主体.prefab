@@ -384,18 +384,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 70
+  reward: 34
   healthBarYOffset: 0.8
+  healthBarWidth: 0.4
+  healthBarHeight: 0.1
   fullHealthColor: {r: 0, g: 1, b: 0, a: 1}
   lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
-  healthBarHeight: 0.1
-  healthBarWidth: 0.4
-  healthBarRoot: {fileID: 4305353461796584967}
-  healthBarBG: {fileID: 4461567135830988972}
-  healthBarFill: {fileID: 1870479047762830425}
   hitMarkPrefab: {fileID: 3628373257282665141, guid: 7610ce4e75c967a448516c14f7700cdc, type: 3}
   hitSound: {fileID: 8300000, guid: 2e3d5300f03bfad488fe83438148d6ab, type: 3}
   dieEffectPrefab: {fileID: 102671894910185582, guid: d6cf360222fd11243853ec944dd7809c, type: 3}
-  reward: 30
   canSplit: 1
   splitZombiePrefab: {fileID: 8638358505556251938, guid: e7e031708c874554ab02403e52c6fb57, type: 3}
   splitCount: 2
@@ -405,9 +402,12 @@ MonoBehaviour:
   damageReductionPercent: 0.5
   shieldEffectPrefab: {fileID: 0}
   shieldEffectDuration: 0.5
-  shieldColor: {r: 0, g: 0.5, b: 1, a: 0.5}
   shieldShowDuration: 1
+  shieldColor: {r: 0, g: 0.5, b: 1, a: 0.5}
   shieldScaleMultiplier: 1.2
+  healthBarRoot: {fileID: 4305353461796584967}
+  healthBarBG: {fileID: 4461567135830988972}
+  healthBarFill: {fileID: 1870479047762830425}
 --- !u!82 &3495143209675070015
 AudioSource:
   m_ObjectHideFlags: 0

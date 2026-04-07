@@ -13,9 +13,24 @@ public class ShopPage : MonoBehaviour
     public GameObject shopItemPrefab;
 
     private List<ShopItemDisplay> currentDisplays = new List<ShopItemDisplay>();
+    private bool isInitialized = false;
 
-    private void Start()
+    private void Awake()
     {
+        DoInit();
+    }
+    
+    private void DoInit()
+    {
+        if (isInitialized) return;
+        isInitialized = true;
+        
+        RefreshShop();
+    }
+    
+    private void OnEnable()
+    {
+        if (!isInitialized) DoInit();
         RefreshShop();
     }
 

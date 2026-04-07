@@ -14,19 +14,28 @@ public class MonsterBook : MonoBehaviour
     [Header("怪物数据")]
     public MonsterData[] monsters;
     
-    private void Start()
+    private bool isInitialized = false;
+    
+    private void Awake()
     {
-        if (monsterBookUI != null)
-        {
-            monsterBookUI.SetActive(false);
-        }
+        DoInit();
+    }
+    
+    private void DoInit()
+    {
+        if (isInitialized) return;
+        isInitialized = true;
         
         if (closeButton != null)
         {
+            closeButton.onClick.RemoveAllListeners();
             closeButton.onClick.AddListener(CloseMonsterBook);
         }
         
         GenerateMonsterItems();
+        
+        if (monsterBookUI != null)
+            monsterBookUI.SetActive(false);
     }
     
     private void GenerateMonsterItems()
@@ -94,6 +103,8 @@ public class MonsterBook : MonoBehaviour
     
     public void OpenMonsterBook()
     {
+        if (!isInitialized) DoInit();
+        
         if (monsterBookUI != null)
         {
             monsterBookUI.SetActive(true);
